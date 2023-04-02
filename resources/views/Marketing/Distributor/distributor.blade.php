@@ -94,7 +94,7 @@
 
     {{-- MODAL EDIT DATA PENGGUNA --}}
     {{-- MODAL EDIT --}}
-    <div class="modal fade text-left" id="modalEditProduk" data-bs-backdrop="static" data-bs-keyboard="false"
+    <div class="modal fade text-left" id="modalEditDistributor" data-bs-backdrop="static" data-bs-keyboard="false"
         aria-labelledby="myModalLabel33" aria-hidden="true">>
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -104,7 +104,7 @@
                         <i data-feather="x"></i>
                     </button>
                 </div>
-                <form id="formEditProduk" action="{{ route('marketing.UbahDataDistributor') }}" method="POST">
+                <form id="formEditDistributor" action="{{ route('marketing.UbahDataDistributor') }}" method="POST">
                     <input type="hidden" name="id" hidden>
                     @csrf
                     <div class="modal-body">
@@ -159,6 +159,7 @@
             "bInfo": true,
             "processing": true,
             "bServerSide": true,
+            "searching": true,
             "responsive": false,
             "sScrollX": '100%',
             "sScrollXInner": "100%",
@@ -218,8 +219,8 @@
                         let tampilan;
                         tampilan = `
                                 <div class="ms-auto">
-                                    <a class="btn btn-link text-dark px-3 mb-0" href="#!" onclick="clickEditDistributor(${row.id})"><i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>Ubah</a>
-                                    <a class="btn btn-link text-danger text-gradient px-3 mb-0 hapus_data_distributor" id-data-distributor = "${row.id}"href="#!"><i class="far fa-trash-alt me-2"></i>Hapus</a>
+                                    <a class="btn btn-link text-dark px-3 mb-0 edit_data_distributor" id-data-distributor = "${row.id}" href="#!"><i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>Ubah</a>
+                                    <a class="btn btn-link text-danger text-gradient px-3 mb-0 hapus_data_distributor" id-data-distributor = "${row.id}" href="#!"><i class="far fa-trash-alt me-2"></i>Hapus</a>
                                 </div>
                                 `
                         return tampilan;
@@ -263,17 +264,18 @@
             });
         });
 
+        $(document).on('click', '.edit_data_distributor', function(event) {
+            const id = $(event.currentTarget).attr('id-data-distributor');
 
-        function clickEditDistributor(id) {
             const data_distributor = daftar_data_distributor[id]
 
-            $("#modalEditProduk").modal('show');
-            $("#formEditProduk [name='id']").val(id)
-            $("#formEditProduk [name='nama']").val(data_distributor.nama);
-            $("#formEditProduk [name='alamat']").val(data_distributor.alamat);
-            $("#formEditProduk [name='nomor_hp']").val(data_distributor.nomor_hp);
+            $("#modalEditDistributor").modal('show');
+            $("#formEditDistributor [name='id']").val(id)
+            $("#formEditDistributor [name='nama']").val(data_distributor.nama);
+            $("#formEditDistributor [name='alamat']").val(data_distributor.alamat);
+            $("#formEditDistributor [name='nomor_hp']").val(data_distributor.nomor_hp);
 
-            $('#formEditProduk').on('submit', function(e) {
+            $('#formEditDistributor').on('submit', function(e) {
                 e.preventDefault();
                 $.ajax({
                     url: $(this).attr('action'),
@@ -292,7 +294,7 @@
                                 // $('span.'+prefix+'_error').text(val[0]);
                             });
                         } else if (data.status == 1) {
-                            $("#modalEditProduk").modal('hide');
+                            $("#modalEditDistributor").modal('hide');
                             swal({
                                     title: "Berhasil",
                                     text: `${data.msg}`,
@@ -304,7 +306,7 @@
                     }
                 });
             });
-        }
+        });
 
         $(document).on('click', '.hapus_data_distributor', function(event) {
             const id = $(event.currentTarget).attr('id-data-distributor');

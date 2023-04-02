@@ -18,6 +18,14 @@ class Marketing_DistributorController extends Controller
             'distributor.*'
         ])->orderBy('id', 'desc');
 
+        if($request->input('search.value')!=null){
+            $data = $data->where(function($q)use($request){
+                    $q->whereRaw('LOWER(nama) like ?',['%'.strtolower($request->input('search.value')).'%'])
+                    ->orWhere->whereRaw('LOWER(alamat) like ?',['%'.strtolower($request->input('search.value')).'%'])
+                    ->orWhere->whereRaw('LOWER(nomor_hp) like ?',['%'.strtolower($request->input('search.value')).'%']);
+            });
+        }
+
         $rekamFilter = $data->get()->count();
         if($request->input('length')!=-1) 
             $data = $data->skip($request->input('start'))->take($request->input('length'));

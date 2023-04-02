@@ -14,10 +14,10 @@ return new class extends Migration
     public function up()
     {
         Schema::create('distributor', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->string('nama');
             $table->text('alamat');
-            $table->integer('nomor_hp')->length(15);
+            $table->string('nomor_hp', 15);
             $table->timestamps();
         });
     }

@@ -26,29 +26,24 @@ class AuthController extends Controller
                     'msg' => 'Berhasil login sebagai Super Admin !',
                     'route' => route('superadmin.Dashboard')
                 ]);
-                // return redirect()->route('admin.Dashboard');
             } elseif (auth()->user()->relasi_role->role == 'admin') {
                 return response()->json([
                     'status' => 1,
                     'msg' => 'Berhasil login sebagai Admin !',
                     'route' => route('admin.Dashboard')
                 ]);
-                // return redirect()->route('asesi.Dashboard');
             } elseif (auth()->user()->relasi_role->role == 'marketing') {
                 return response()->json([
                     'status' => 1,
                     'msg' => 'Berhasil login sebagai Marketing !',
                     'route' => route('marketing.Dashboard')
                 ]);
-                // return redirect()->route('asesor.Dashboard');
             } elseif (auth()->user()->relasi_role->role == 'produksi') {
                 return response()->json([
                     'status' => 1,
                     'msg' => 'Berhasil login sebagai Peninjau !',
                     'route' => route('produksi.Dashboard')
                 ]);
-                // return "Peninjau";
-                // return redirect()->route('dealer.Dashboard');
             }
         } else {
             return response()->json([

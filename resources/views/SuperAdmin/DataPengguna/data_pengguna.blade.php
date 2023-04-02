@@ -257,8 +257,8 @@
                         let tampilan;
                         tampilan = `
                                 <div class="ms-auto">
-                                    <a class="btn btn-link text-dark px-3 mb-0" href="#!" onclick="clickEditPengguna(${row.id})"><i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>Ubah</a>
-                                    <a class="btn btn-link text-danger text-gradient px-3 mb-0 hapus_pengguna" id-pengguna = "${row.id}"href="#!"><i class="far fa-trash-alt me-2"></i>Hapus</a>
+                                    <a class="btn btn-link text-dark text-gradient px-3 mb-0 edit_pengguna" id-pengguna = "${row.id}" href="#!" ><i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>Ubah</a>
+                                    <a class="btn btn-link text-danger text-gradient px-3 mb-0 hapus_pengguna" id-pengguna = "${row.id}" href="#!"><i class="far fa-trash-alt me-2"></i>Hapus</a>
                                 </div>
                                 `
                         return tampilan;
@@ -302,10 +302,15 @@
             });
         });
 
+        $('.batal').on('click', function() {
+            $(document).find('label.error-text').text('');
+            $("#role").empty().append('');
+        })
 
         let role = @json($role);
 
-        function clickEditPengguna(id) {
+        $(document).on('click', '.edit_pengguna', function(event) {
+            const id = $(event.currentTarget).attr('id-pengguna');
             const data_pengguna = daftar_data_pengguna[id]
             $("#modalEditPengguna").modal('show');
             $("#formEditPengguna [name='id']").val(id)
@@ -351,7 +356,7 @@
                     }
                 });
             });
-        }
+        });
 
         function password_show_hide1() {
             var x = document.getElementById("password");
@@ -421,10 +426,5 @@
                 }
             });
         });
-
-        $('.batal').on('click', function() {
-            $(document).find('label.error-text').text('');
-            $("#role").empty().append('');
-        })
     </script>
 @endsection

@@ -163,6 +163,7 @@
             "processing": true,
             "bServerSide": true,
             "responsive": false,
+            "searching": true,
             "sScrollX": '100%',
             "sScrollXInner": "100%",
             ajax: {
@@ -221,8 +222,8 @@
                         let tampilan;
                         tampilan = `
                                 <div class="ms-auto">
-                                    <a class="btn btn-link text-dark px-3 mb-0" href="#!" onclick="clickEditProduk(${row.id})"><i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>Ubah</a>
-                                    <a class="btn btn-link text-danger text-gradient px-3 mb-0 hapus_data_produk" id-data-produk = "${row.id}"href="#!"><i class="far fa-trash-alt me-2"></i>Hapus</a>
+                                    <a class="btn btn-link text-dark px-3 mb-0 edit_data_produk" id-data-produk = "${row.id}" href="#!"><i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>Ubah</a>
+                                    <a class="btn btn-link text-danger text-gradient px-3 mb-0 hapus_data_produk" id-data-produk = "${row.id}" href="#!"><i class="far fa-trash-alt me-2"></i>Hapus</a>
                                 </div>
                                 `
                         return tampilan;
@@ -292,8 +293,8 @@
             hargaEditId.value = formatRupiah(this.value, 'Rp. ');
         });
 
-
-        function clickEditProduk(id) {
+        $(document).on('click', '.edit_data_produk', function(event) {
+            const id = $(event.currentTarget).attr('id-data-produk');
             const data_pengguna = daftar_data_produk[id]
 
             let num = data_pengguna.harga;
@@ -339,7 +340,7 @@
                     }
                 });
             });
-        }
+        });
 
         $(document).on('click', '.hapus_data_produk', function(event) {
             const id = $(event.currentTarget).attr('id-data-produk');

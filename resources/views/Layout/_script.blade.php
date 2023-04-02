@@ -7,6 +7,35 @@
 <script src="{{ asset('Assets/js/plugins/sweetalert.min.js') }}"></script>
 <script src="{{ asset('Assets/js/plugins/jquery.dataTables.min.js') }}"></script>
 <script src="{{ asset('Assets/js/plugins/dataTables.bootstrap4.min.js') }}"></script>
+<script src="{{ asset('Assets/js/plugins/moment.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/gh/plentz/jquery-maskmoney@master/dist/jquery.maskMoney.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+{{-- <script>
+    $(window).on("load", function() {
+        $(".loader-wrapper").fadeOut("show");
+    });
+</script> --}}
+{{-- <script>
+    document.onreadystatechange = function() {
+        if (document.readyState !== "complete") {
+            document.querySelector(
+                "body").style.visibility = "hidden";
+            document.querySelector(
+                "#loader").style.visibility = "visible";
+        } else {
+            document.querySelector(
+                "#loader").style.display = "none";
+            document.querySelector(
+                "body").style.visibility = "visible";
+        }
+    };
+</script> --}}
+<script>
+    $(window).on('load', function() {
+        $(".loader").fadeOut(1000);
+        $(".content").fadeIn(1000);
+    });
+</script>
 @yield('script')
 {{-- <script>
     var ctx = document.getElementById("chart-bars").getContext("2d");

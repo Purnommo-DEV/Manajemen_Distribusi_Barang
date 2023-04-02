@@ -23,7 +23,13 @@ class ProdukController extends Controller
     public function data_produk(Request $request){
         $data = Produk::select([
             'produk.*'
-        ])->orderBy('id', 'desc');
+        ])->orderBy('created_at', 'desc');
+
+        if($request->input('search.value')!=null){
+            $data = $data->where(function($q)use($request){
+                    $q->whereRaw('LOWER(nama_produk) like ?',['%'.strtolower($request->input('search.value')).'%']);
+            });
+        }
 
         $rekamFilter = $data->get()->count();
         if($request->input('length')!=-1) 
