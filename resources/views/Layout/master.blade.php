@@ -4,6 +4,9 @@
 @include('Layout._head')
 
 <body class="g-sidenav-show  bg-gray-100">
+    <div class="loader">
+        <div></div>
+    </div>
     @include('sweetalert::alert')
     @include('Layout._sidebar')
 
@@ -11,7 +14,6 @@
         <!-- Navbar -->
         @include('Layout._navbar')
         <!-- End Navbar -->
-
         @yield('konten')
         @include('Layout._footer')
     </main>

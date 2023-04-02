@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\Admin_LaporanController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Marketing\Marketing_DashboardController;
 use App\Http\Controllers\Marketing\Marketing_DistributorController;
@@ -51,6 +52,13 @@ Route::middleware(['auth'])->group(function () {
         Route::controller(SuperAdmin_DashboardController::class)->group(function () {
             Route::get('dashboard', 'dashboard')->name('Dashboard');
         });
+        Route::controller(Admin_LaporanController::class)->group(function () {
+            Route::get('laporan-pesanan', 'laporan_pesanan')->name('Laporan');
+            Route::any('data-pesanan', 'data_pesanan')->name('DataPesanan');
+            Route::any('data-produk-pesanan/{id}', 'data_produk_pesanan')->name('DataProdukPesanan');
+            Route::get('laporan-produk-pesanan/{id}', 'laporan_produk_pesanan')->name('LaporanProdukPesanan');
+            Route::any('data-status-pesanan/{id}', 'data_status_pesanan')->name('DataStatusPesanan');
+        });
     });
 
     Route::prefix('produksi')->name('produksi.')->middleware(['isProduksi'])->group(function () {
@@ -84,7 +92,22 @@ Route::middleware(['auth'])->group(function () {
         });
         Route::controller(Marketing_PesananController::class)->group(function () {
             Route::get('halaman-pesanan', 'halaman_pesanan')->name('Pesanan');
-            // Route::any('data-pesanan', 'data_pesanan')->name('DataPesanan');
+            Route::get('produk-detail/{id}', 'produk_detail')->name('ProdukDetail');
+            Route::post('tambah-distribusi-barang', 'tambah_distribusi_barang')->name('TambahDistribusiBarang');
+            Route::any('data-pesanan', 'data_pesanan')->name('DataPesanan');
+            Route::post('tambah-data-pesanan', 'tambah_data_pesanan')->name('TambahDataPesanan');
+            Route::post('ubah-data-pesanan', 'ubah_data_pesanan')->name('UbahDataPesanan');
+            Route::get('hapus-data-pesanan/{id}', 'hapus_data_pesanan')->name('HapusDataPesanan');
+            // Route::get('cari-distributor', 'pilih_cari_distributor')->name('CariDistributor');
+            
+            Route::get('produk-pesanan/{id}', 'produk_pesanan')->name('Pesanan.ProdukPesanan');
+            Route::any('data-produk-pesanan/{id}', 'data_produk_pesanan')->name('DataProdukPesanan');
+            Route::get('hapus-data-produk-pesanan/{id}', 'hapus_data_produk_pesanan')->name('HapusDataProdukPesanan');
+
+            Route::post('status-pesanan', 'status_pesanan')->name('StatusPesanan');
+            Route::any('data-status-pesanan/{id}', 'data_status_pesanan')->name('DataStatusPesanan');
+
+
         });
         Route::controller(Marketing_PengembalianController::class)->group(function () {
             Route::get('halaman-pengembalian', 'halaman_pengembalian')->name('Pengembalian');

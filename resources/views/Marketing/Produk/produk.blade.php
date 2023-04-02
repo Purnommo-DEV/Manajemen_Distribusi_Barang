@@ -162,6 +162,7 @@
             "bInfo": true,
             "processing": true,
             "bServerSide": true,
+            "searching": true,
             "responsive": false,
             "sScrollX": '100%',
             "sScrollXInner": "100%",
