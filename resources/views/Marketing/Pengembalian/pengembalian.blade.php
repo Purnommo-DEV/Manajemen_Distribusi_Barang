@@ -14,134 +14,135 @@
                 <div class="col pb-10">
                     <div class="card">
                         <div class="card-body">
-                            {{-- <div class="buttons">
-                                <a id="tombol-tambah-pengguna"
-                                    class="btn btn-sm btn-primary rounded-pill text-white fw-semibold tambah_isi_elemen"
-                                    href="#" data-bs-toggle="modal" data-bs-target="#modalTambahProduk"><i
-                                        class="fa fa-plus fa-xs"></i> Tambah Produk
-                                </a>
-                            </div> --}}
-                            {{-- <div class="modal fade text-left" id="modalTambahProduk" data-bs-backdrop="static"
-                                data-bs-keyboard="false" aria-labelledby="myModalLabel33" aria-hidden="true">>
-                                <div class="modal-dialog modal-dialog-centered">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h4 class="modal-title" id="myModalLabel33">Tambah Data Produk</h4>
-                                            <button type="button" class="close batal" data-bs-dismiss="modal"
-                                                aria-label="Close">
-                                                <i data-feather="x"></i>
-                                            </button>
-                                        </div>
-                                        <form action="{{ route('produksi.TambahDataProduk') }}" id="formTambahProduk"
-                                            method="POST">
-                                            @csrf
-                                            <div class="modal-body">
-                                                <label>Nama Produk</label>
-                                                <div class="form-group">
-                                                    <input type="text" name="nama_produk" placeholder="Nama Produk"
-                                                        class="form-control rounded-5">
-                                                    <div class="input-group has-validation">
-                                                        <label class="text-danger error-text nama_produk_error"></label>
-                                                    </div>
-                                                </div>
-                                                <label>Harga</label>
-                                                <div class="form-group">
-                                                    <input type="text" id="harga" name="harga"
-                                                        placeholder="Harga Produk" class="form-control rounded-5">
-                                                    <div class="input-group has-validation">
-                                                        <label class="text-danger error-text harga_error"></label>
-                                                    </div>
-                                                </div>
-                                                <label>Stok</label>
-                                                <div class="form-group">
-                                                    <input type="text" name="stok" placeholder="Stok Produk"
-                                                        class="form-control rounded-5">
-                                                    <div class="input-group has-validation">
-                                                        <label class="text-danger error-text stok_error"></label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-light-secondary batal rounded-pill"
-                                                    data-bs-dismiss="modal">
-                                                    Batal
-                                                </button>
-                                                <button type="submit" class="btn btn-primary ml-1 rounded-pill">
-                                                    Simpan
-                                                </button>
-                                            </div>
-                                        </form>
-                                    </div>
-                                </div>
-                            </div> --}}
-                            {{-- <table class="table table-striped" id="table-data-produk">
+                            <table class="table table-striped" id="table-data-pesanan">
                                 <thead>
                                     <tr>
                                         <th>No.</th>
-                                        <th>Nama Produk</th>
-                                        <th>Harga</th>
-                                        <th>Stok</th>
+                                        <th>Nama Distributor</th>
+                                        <th>Tanggal Pesanan</th>
+                                        <th>Tanggal Pengiriman</th>
+                                        <th>Status</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
-                            </table> --}}
+                            </table>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
-    {{-- <div class="modal fade text-left" id="modalEditProduk" data-bs-backdrop="static" data-bs-keyboard="false"
-        aria-labelledby="myModalLabel33" aria-hidden="true">>
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title" id="myModalLabel33">Ubah Data Produk</h4>
-                    <button type="button" class="close batal" data-bs-dismiss="modal" aria-label="Close">
-                        <i data-feather="x"></i>
-                    </button>
-                </div>
-                <form id="formEditProduk" action="{{ route('produksi.UbahDataProduk') }}" method="POST">
-                    <input type="hidden" name="id" hidden>
-                    @csrf
-                    <div class="modal-body">
-                        <label>Nama Produk</label>
-                        <div class="form-group">
-                            <input type="text" name="nama_produk" placeholder="Nama Produk"
-                                class="form-control rounded-5">
-                            <div class="input-group has-validation">
-                                <label class="text-danger error-text nama_produk_error"></label>
+@endsection
+@section('script')
+    <script>
+        let daftar_data_pesanan = [];
+        const table_data_pesanan = $('#table-data-pesanan').DataTable({
+            "destroy": true,
+            "pageLength": 10,
+            "lengthMenu": [
+                [10, 25, 50, 100, -1],
+                [10, 25, 50, 100, 'semua']
+            ],
+            "bLengthChange": true,
+            "bFilter": false,
+            "bInfo": true,
+            "processing": true,
+            "ordering": false,
+            "bServerSide": true,
+            "sScrollX": '100%',
+            "sScrollXInner": "100%",
+            ajax: {
+                url: "{{ route('marketing.DataPesananDiterima') }}",
+                type: "POST",
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                // data: function(d) {
+                //     d.role_pengguna = data_role_pengguna;
+                //     d.jurusan_pengguna = data_filter_jurusan;
+                //     return d
+                // }
+            },
+            columnDefs: [{
+                    targets: '_all',
+                    visible: true
+                },
+                {
+                    "targets": 0,
+                    "class": "text-nowrap text-center",
+                    "render": function(data, type, row, meta) {
+                        let i = 1;
+                        daftar_data_pesanan[row.id] = row;
+                        return meta.row + 1;
+                    }
+                },
+                {
+                    "targets": 1,
+                    "class": "text-wrap text-center",
+                    "render": function(data, type, row, meta) {
+                        daftar_data_pesanan[row.id] = row;
+                        return row.relasi_distributor.nama;
+                    }
+                },
+                {
+                    "targets": 2,
+                    "class": "text-wrap text-center",
+                    "render": function(data, type, row, meta) {
+                        daftar_data_pesanan[row.id] = row;
+                        return moment(row.tanggal_pesan).format('dddd, D MMMM Y HH:mm:ss');
+                    }
+                },
+                {
+                    "targets": 3,
+                    "class": "text-wrap text-center",
+                    "render": function(data, type, row, meta) {
+                        daftar_data_pesanan[row.id] = row;
+                        let tgl_kirim;
+                        if (row.tanggal_kirim == null) {
+                            tgl_kirim =
+                                '<label style="color:red;">Belum Ditentukan</label>'
+                        } else {
+                            tgl_kirim = moment(row.tanggal_kirim).format('dddd, D MMMM Y HH:mm:ss');
+                        }
+                        return tgl_kirim;
+                    }
+                },
+                {
+                    "targets": 4,
+                    "class": "text-wrap text-center",
+                    "render": function(data, type, row, meta) {
+                        daftar_data_pesanan[row.id] = row;
+                        let status;
+                        if (row.status == null) {
+                            status = '<label style="color:red;">Belum Diproses</label>'
+                        } else {
+                            if (row.status == 1) {
+                                status = '<label style="color:orange;">Sedang Disiapkan</label>';
+                            } else if (row.status == 2) {
+                                status = '<label style="color:blue;">Sedang Diproses</label>';
+                            } else if (row.status == 3) {
+                                status = '<label style="color:brown;">Dalam Pengiriman</label>';
+                            } else if (row.status == 4) {
+                                status = '<label style="color:green;">Diterima</label>';
+                            }
+                        }
+                        return status;
+                    }
+                },
+                {
+                    "targets": 5,
+                    "class": "text-nowrap text-center",
+                    "render": function(data, type, row, meta) {
+                        let tampilan;
+                        tampilan = `
+                            <div class="ms-auto">
+                                <a class="btn btn-link text-info text-gradient px-3 mb-0" href="/marketing/produk-pengembalian/${row.id}"><i class="far fa-eye me-2"></i>Detail</a>
                             </div>
-                        </div>
-                        <label>Harga</label>
-                        <div class="form-group">
-                            <input type="text" id="hargaEdit" name="harga" placeholder="Harga Produk"
-                                class="form-control rounded-5">
-                            <div class="input-group has-validation">
-                                <label class="text-danger error-text harga_error"></label>
-                            </div>
-                        </div>
-                        <label>Stok</label>
-                        <div class="form-group">
-                            <input type="text" name="stok" placeholder="Stok Produk"
-                                class="form-control rounded-5">
-                            <div class="input-group has-validation">
-                                <label class="text-danger error-text stok_error"></label>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-light-secondary batal rounded-pill"
-                            data-bs-dismiss="modal">
-                            Batal
-                        </button>
-                        <button type="submit" class="btn btn-primary ml-1 rounded-pill">
-                            Simpan
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div> --}}
+                            `
+                        return tampilan;
+                    }
+                },
+            ]
+        });
+    </script>
 @endsection

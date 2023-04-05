@@ -111,6 +111,12 @@ Route::middleware(['auth'])->group(function () {
         });
         Route::controller(Marketing_PengembalianController::class)->group(function () {
             Route::get('halaman-pengembalian', 'halaman_pengembalian')->name('Pengembalian');
+            Route::any('data-pesanan-diterima', 'data_pesanan_diterima')->name('DataPesananDiterima');
+            Route::get('produk-pengembalian/{id}', 'pengembalian_produk_pesanan')->name('PengembalianProdukDetail');
+            Route::any('produk-dipesan/{pesanan_id}/{id}', 'data_produk_dipesan');
+            Route::any('data-produk-dikembalikan/{id}', 'data_produk_pengembalian');
+            Route::post('pengembalian-barang', 'pengembalian_barang')->name('PengembalianBarang');
+            Route::get('hapus-data-pengembalian/{id}', 'hapus_data_pengembalian')->name('HapusDataPengembalian');
             // Route::any('data-pengembalian', 'data_pengembalian')->name('DataPengembalian');
         });
     });

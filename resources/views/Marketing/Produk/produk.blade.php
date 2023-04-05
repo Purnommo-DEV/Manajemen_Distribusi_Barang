@@ -233,10 +233,10 @@
         });
 
 
-        var hargaId = document.getElementById('harga');
-        hargaId.addEventListener('keyup', function(e) {
-            hargaId.value = formatRupiah(this.value, 'Rp. ');
-        });
+        // var hargaId = document.getElementById('harga');
+        // hargaId.addEventListener('keyup', function(e) {
+        //     hargaId.value = formatRupiah(this.value, 'Rp. ');
+        // });
 
         function formatRupiah(angka, prefix) {
             var number_string = angka.replace(/[^,\d]/g, '').toString(),

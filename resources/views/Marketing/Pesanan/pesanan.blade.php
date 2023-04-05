@@ -116,8 +116,8 @@
                         </div>
                         <label>Tanggal Pesanan</label>
                         <div class="form-group">
-                            <input type="date" id="tanggal_pesan" name="tanggal_pesan" placeholder="Tanggal Pesanan"
-                                class="form-control rounded-5">
+                            <input type="datetime-local" id="tanggal_pesan" name="tanggal_pesan"
+                                placeholder="Tanggal Pesanan" class="form-control rounded-5">
                             <div class="input-group has-validation">
                                 <label class="text-danger error-text tanggal_pesan_error"></label>
                             </div>
@@ -225,7 +225,7 @@
                             } else if (row.status == 2) {
                                 status = '<label style="color:blue;">Sedang Diproses</label>';
                             } else if (row.status == 3) {
-                                status = '<label style="color:green;">Dalam Pengiriman</label>';
+                                status = '<label style="color:brown;">Dalam Pengiriman</label>';
                             } else if (row.status == 4) {
                                 status = '<label style="color:green;">Diterima</label>';
                             }
@@ -242,7 +242,7 @@
                             <div class="ms-auto">
                                 <a class="btn btn-link text-dark px-3 mb-0 ubah_data_pesanan" href="#!" id-data-pesanan = "${row.id}"><i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>Ubah</a>
                                 <a class="btn btn-link text-danger text-gradient px-3 mb-0 hapus_data_pesanan" id-data-pesanan = "${row.id}" href="#!"><i class="far fa-trash-alt me-2"></i>Hapus</a>
-                                <a class="btn btn-link text-info text-gradient px-3 mb-0" href="/marketing/produk-pesanan/${row.id}"><i class="far fa-eye-alt me-2"></i>Detail</a>
+                                <a class="btn btn-link text-info text-gradient px-3 mb-0" href="/marketing/produk-pesanan/${row.id}"><i class="far fa-eye me-2"></i>Detail</a>
                             </div>
                             `
                         return tampilan;
@@ -336,7 +336,8 @@
 
             $("#modalEditPesanan").modal('show');
             $("#formEditPesanan [name='id']").val(id)
-            $("#formEditPesanan [name='tanggal_pesan']").val(data_pesanan.tanggal_pesan);
+            $("#formEditPesanan [name='tanggal_pesan']").val(moment(data_pesanan.tanggal_pesan).format(
+                'YYYY-MM-DD HH:mm:ss'));
 
             $.each(distributor, function(key, value) {
                 $('#distributor')
