@@ -157,56 +157,57 @@
                                 <input type="text" class="form-control"
                                     value="{{ $data_pesanan->relasi_distributor->nama }}" readonly>
                             </div>
-                            <div class="row">
-                                <div class="col-6">
-                                    <div class="form-group">
-                                        <label for="exampleCheck1">Barang</label>
-                                        <select class="form-control form-control" name="produk_id" id="barang-id">
-                                            <option value="" selected disabled>Pilih Barang</option>
-                                            @foreach ($produk as $data_produk)
-                                                <option value="{{ $data_produk->id }}">
-                                                    {{ $data_produk->nama_produk }}
-                                                </option>
-                                            @endforeach
-                                        </select>
-                                        <div class="input-group has-validation">
-                                            <label class="text-danger error-text produk_id_error"></label>
+                            <div id="pilih-barang">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <label for="exampleCheck1">Barang</label>
+                                            <select class="form-control form-control" name="produk_id" id="barang-id">
+                                                <option value="" selected disabled>Pilih Barang</option>
+                                                @foreach ($produk as $data_produk)
+                                                    <option value="{{ $data_produk->id }}">
+                                                        {{ $data_produk->nama_produk }}
+                                                    </option>
+                                                @endforeach
+                                            </select>
+                                            <div class="input-group has-validation">
+                                                <label class="text-danger error-text produk_id_error"></label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <label for="exampleInputPassword1">Harga Barang</label>
+                                            <input type="text" class="form-control" name="harga" id="harga-barang"
+                                                placeholder="Harga Barang" readonly>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-6">
-                                    <div class="form-group">
-                                        <label for="exampleInputPassword1">Harga Barang</label>
-                                        <input type="text" class="form-control" name="harga" id="harga-barang"
-                                            placeholder="Harga Barang" readonly>
-                                    </div>
-                                </div>
-                            </div>
 
-                            <div class="row">
-                                <div class="col-6">
-                                    <label for="exampleInputPassword1">Jumlah Pemesanan</label>
-                                    <div class="form-group">
-                                        <input class="form-control input-number" name="kuantitas" value=""
-                                            type="number" id="kuantitas" min="1" max=""
-                                            onwheel="this.blur()">
-                                        <div class="input-group has-validation">
-                                            <label class="text-danger error-text kuantitas_error"></label>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <label for="exampleInputPassword1">Jumlah Pemesanan</label>
+                                        <div class="form-group">
+                                            <input class="form-control input-number" name="kuantitas" value=""
+                                                type="number" id="kuantitas" min="1" max=""
+                                                onwheel="this.blur()">
+                                            <div class="input-group has-validation">
+                                                <label class="text-danger error-text kuantitas_error"></label>
+                                            </div>
+                                            <label id="errorMsg"></label>
+                                            <input type="hidden" id="subtotal1">
                                         </div>
-                                        <label id="errorMsg"></label>
-                                        <input type="hidden" id="subtotal1">
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <label for="exampleInputPassword1">Sub Total</label>
+                                            <input type="text" class="form-control" name="subtotal" id="subtotal"
+                                                placeholder="Sub Total" readonly>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-6">
-                                    <div class="form-group">
-                                        <label for="exampleInputPassword1">Sub Total</label>
-                                        <input type="text" class="form-control" name="subtotal" id="subtotal"
-                                            placeholder="Sub Total" readonly>
-                                    </div>
-                                </div>
+                                <button type="submit" class="btn btn-primary">Simpan</button>
                             </div>
-
-                            <button type="submit" class="btn btn-primary">Simpan</button>
                         </form>
                     </div>
                 </div>
@@ -281,10 +282,14 @@
                                     dikirim</button>
                             @elseif($status_pesanan->status == 3)
                                 <input type="text" value="4" name="status" hidden>
+                                <input type="hidden" name="data_pesanan_id" value="{{ $data_pesanan->id }}" hidden>
+                                @php
+                                    
+                                @endphp
                                 <button type="submit" class="btn btn-outline-primary btn-sm">Konfirmasi Pesanan
                                     diterima</button>
                             @elseif($status_pesanan->status == 4)
-                                <button type="submit" class="btn btn-outline-primary btn-sm">Pesanan telah
+                                <button type="button" class="btn btn-outline-primary btn-sm">Pesanan telah
                                     diterima</button>
                             @endif
                         </form>
@@ -439,6 +444,16 @@
                 //     return d
                 // }
             },
+            fnDrawCallback: function() {
+                self.QtdOcorrenciasAgendadosHoje = this.api().page.info().recordsTotal;
+                if (self.QtdOcorrenciasAgendadosHoje == 0) {
+                    $('#pilih-barang').css("visibility", "visible");
+                } else if (self.QtdOcorrenciasAgendadosHoje > 0) {
+                    $('#pilih-barang').css("display", "none");
+                    $('.hapus_data_produk_pesanan').css("display", "none");
+                }
+
+            },
             columnDefs: [{
                     targets: '_all',
                     visible: true
@@ -591,6 +606,7 @@
                 }
             });
         });
+
 
         $('#formDistribusiBarang').on('submit', function(e) {
             e.preventDefault();

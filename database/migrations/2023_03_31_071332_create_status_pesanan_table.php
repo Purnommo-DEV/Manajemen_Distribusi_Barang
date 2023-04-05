@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('status_pesanan', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->foreignUuid('pesanan_id')->constrained('pesanan')->cascadeOnDelete()->cascadeOnUpdate();
             $table->tinyInteger('status');
             $table->timestamps();

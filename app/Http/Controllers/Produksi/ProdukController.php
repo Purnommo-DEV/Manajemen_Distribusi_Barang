@@ -10,7 +10,8 @@ use Illuminate\Support\Facades\Validator;
 class ProdukController extends Controller
 {
     public function dashboard(){
-        return view('Produksi.Dashboard.dashboard');
+        $produk        = Produk::count();
+        return view('Produksi.Dashboard.dashboard', compact('produk'));
     }
     public function halaman_produksi(){
         return view('Produksi.Produk.produk');
@@ -48,10 +49,12 @@ public function tambah_data_produk(Request $request){
         $harga = str_replace(['Rp. ', '.', '.'], ['', '', ''], $request->harga);
 
         $validator = Validator::make($request->all(), [
+            'kode'=>'required',
             'nama_produk'=>'required',
             'harga' => 'required|min:0',
             'stok' => 'required|numeric|min:0',
         ],[
+            'kode.required'=> 'Wajib diisi',
             'nama_produk.required'=> 'Wajib diisi',
             'harga.required'=> 'Wajib diisi',
             'harga.min'=> 'Inputan harga minimal 0',
@@ -67,6 +70,7 @@ public function tambah_data_produk(Request $request){
             ]);
         }else{
             $tambah_produk = Produk::create([
+                'kode' => $request->kode,
                 'nama_produk' => $request->nama_produk,
                 'harga' => $harga,
                 'stok' => $request->stok,
@@ -90,10 +94,12 @@ public function ubah_data_produk(Request $request){
     $harga = str_replace(['Rp. ', '.', '.'], ['', '', ''], $request->harga);
 
     $validator = Validator::make($request->all(), [
+        'kode'=>'required',
         'nama_produk'=>'required',
         'harga' => 'required|min:0',
         'stok' => 'required|numeric|min:0',
     ],[
+        'kode.required'=> 'Wajib diisi',
         'nama_produk.required'=> 'Wajib diisi',
         'harga.required'=> 'Wajib diisi',
         'harga.min'=> 'Inputan harga minimal 0',
@@ -109,6 +115,7 @@ public function ubah_data_produk(Request $request){
         ]);
     }else{
         $ubah_produk = Produk::where('id', $request->id)->update([
+            'kode' => $request->kode,
             'nama_produk' => $request->nama_produk,
             'harga' => $harga,
             'stok' => $request->stok,

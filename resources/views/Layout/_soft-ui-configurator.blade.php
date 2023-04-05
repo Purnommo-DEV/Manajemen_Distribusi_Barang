@@ -4,10 +4,10 @@
     </a>
     <div class="card shadow-lg ">
         <div class="card-header pb-0 pt-3 ">
-            <div class="float-start">
+            {{-- <div class="float-start">
                 <h5 class="mt-3 mb-0">Soft UI Configurator</h5>
                 <p>See our dashboard options.</p>
-            </div>
+            </div> --}}
             <div class="float-end mt-4">
                 <button class="btn btn-link text-dark p-0 fixed-plugin-close-button">
                     <i class="fa fa-close"></i>
@@ -56,7 +56,7 @@
                     onclick="navbarFixed(this)">
             </div>
             <hr class="horizontal dark my-sm-4">
-            <a class="btn bg-gradient-dark w-100" href="https://www.creative-tim.com/product/soft-ui-dashboard">Free
+            {{-- <a class="btn bg-gradient-dark w-100" href="https://www.creative-tim.com/product/soft-ui-dashboard">Free
                 Download</a>
             <a class="btn btn-outline-dark w-100"
                 href="https://www.creative-tim.com/learning-lab/bootstrap/license/soft-ui-dashboard">View
@@ -74,7 +74,7 @@
                     class="btn btn-dark mb-0 me-2" target="_blank">
                     <i class="fab fa-facebook-square me-1" aria-hidden="true"></i> Share
                 </a>
-            </div>
+            </div> --}}
         </div>
     </div>
 </div>

@@ -36,6 +36,14 @@
                                             method="POST">
                                             @csrf
                                             <div class="modal-body">
+                                                <label>Kode Produk</label>
+                                                <div class="form-group">
+                                                    <input type="text" name="kode" placeholder="Kode Produk"
+                                                        class="form-control rounded-5">
+                                                    <div class="input-group has-validation">
+                                                        <label class="text-danger error-text kode_error"></label>
+                                                    </div>
+                                                </div>
                                                 <label>Nama Produk</label>
                                                 <div class="form-group">
                                                     <input type="text" name="nama_produk" placeholder="Nama Produk"
@@ -78,6 +86,7 @@
                                 <thead>
                                     <tr>
                                         <th>No.</th>
+                                        <th>Kode Produk</th>
                                         <th>Nama Produk</th>
                                         <th>Harga</th>
                                         <th>Stok</th>
@@ -108,6 +117,14 @@
                     <input type="hidden" name="id" hidden>
                     @csrf
                     <div class="modal-body">
+                        <label>Kode Produk</label>
+                        <div class="form-group">
+                            <input type="text" name="kode" placeholder="Kode Produk"
+                                class="form-control rounded-5">
+                            <div class="input-group has-validation">
+                                <label class="text-danger error-text kode_error"></label>
+                            </div>
+                        </div>
                         <label>Nama Produk</label>
                         <div class="form-group">
                             <input type="text" name="nama_produk" placeholder="Nama Produk"
@@ -196,7 +213,7 @@
                     "class": "text-wrap text-center",
                     "render": function(data, type, row, meta) {
                         daftar_data_produk[row.id] = row;
-                        return row.nama_produk;
+                        return row.kode;
                     }
                 },
                 {
@@ -204,7 +221,7 @@
                     "class": "text-wrap text-center",
                     "render": function(data, type, row, meta) {
                         daftar_data_produk[row.id] = row;
-                        return $.fn.dataTable.render.number('.', ',', 2, 'Rp ').display(row.harga);
+                        return row.nama_produk;
                     }
                 },
                 {
@@ -212,11 +229,19 @@
                     "class": "text-wrap text-center",
                     "render": function(data, type, row, meta) {
                         daftar_data_produk[row.id] = row;
-                        return row.stok;
+                        return $.fn.dataTable.render.number('.', ',', 2, 'Rp ').display(row.harga);
                     }
                 },
                 {
                     "targets": 4,
+                    "class": "text-wrap text-center",
+                    "render": function(data, type, row, meta) {
+                        daftar_data_produk[row.id] = row;
+                        return row.stok;
+                    }
+                },
+                {
+                    "targets": 5,
                     "class": "text-nowrap text-center",
                     "render": function(data, type, row, meta) {
                         let tampilan;
@@ -295,9 +320,9 @@
 
         $(document).on('click', '.edit_data_produk', function(event) {
             const id = $(event.currentTarget).attr('id-data-produk');
-            const data_pengguna = daftar_data_produk[id]
+            const data_produk = daftar_data_produk[id]
 
-            let num = data_pengguna.harga;
+            let num = data_produk.harga;
             let text = num.toLocaleString("id-ID", {
                 style: "currency",
                 currency: "IDR"
@@ -305,9 +330,11 @@
 
             $("#modalEditProduk").modal('show');
             $("#formEditProduk [name='id']").val(id)
-            $("#formEditProduk [name='nama_produk']").val(data_pengguna.nama_produk);
-            $("#formEditProduk [name='harga']").val(text);
-            $("#formEditProduk [name='stok']").val(data_pengguna.stok);
+            $("#formEditProduk [name='kode']").val(data_produk.kode);
+            $("#formEditProduk [name='nama_produk']").val(data_produk.nama_produk);
+            $("#formEditProduk [name='harga']").val(data_produk.harga).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g,
+                "Rp.");
+            $("#formEditProduk [name='stok']").val(data_produk.stok);
 
             $('#formEditProduk').on('submit', function(e) {
                 e.preventDefault();
