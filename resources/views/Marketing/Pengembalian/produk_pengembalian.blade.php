@@ -132,8 +132,8 @@
                         <h6 class="mb-0">Memilih Produk</h6>
                     </div>
                     <div class="card-body">
-                        <form action="{{ route('marketing.TambahDistribusiBarang') }}" method="POST"
-                            id="formDistribusiBarang">
+                        <form action="{{ route('marketing.PengembalianBarang') }}" method="POST"
+                            id="formPengembalianProduk">
                             @csrf
                             <div class="row">
                                 <div class="col-6">
@@ -151,21 +151,35 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label for="exampleCheck1">Distributor</label>
-                                <input type="hidden" value="{{ $data_pesanan->id }}" name="pesanan_id" hidden>
-                                <input type="text" class="form-control"
-                                    value="{{ $data_pesanan->relasi_distributor->nama }}" readonly>
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label for="exampleCheck1">Distributor</label>
+                                        <input type="hidden" value="{{ $data_pesanan->id }}" name="pesanan_id" hidden>
+                                        <input type="text" class="form-control"
+                                            value="{{ $data_pesanan->relasi_distributor->nama }}" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <label for="exampleCheck1">Status Pesanan</label>
+                                        <input type="hidden" value="{{ $data_pesanan->id }}" name="pesanan_id" hidden>
+                                        <input type="text" class="form-control"
+                                            value="@if ($status_pesanan->status == 4) Pesanan Diterima ({{ $status_pesanan->created_at->format('d F Y, m:h') }}) @endif"
+                                            readonly>
+                                    </div>
+                                </div>
                             </div>
                             <div class="row">
                                 <div class="col-6">
                                     <div class="form-group">
                                         <label for="exampleCheck1">Barang</label>
-                                        <select class="form-control form-control" name="produk_id" id="barang-id">
+                                        <select class="form-control form-control" pesanan-id="{{ $data_pesanan->id }}"
+                                            name="produk_id" id="barang-id">
                                             <option value="" selected disabled>Pilih Barang</option>
                                             @foreach ($produk as $data_produk)
-                                                <option value="{{ $data_produk->id }}">
-                                                    {{ $data_produk->nama_produk }}
+                                                <option value="{{ $data_produk->relasi_produk->id }}">
+                                                    {{ $data_produk->relasi_produk->nama_produk }}
                                                 </option>
                                             @endforeach
                                         </select>
@@ -205,7 +219,16 @@
                                     </div>
                                 </div>
                             </div>
-
+                            <div class="col-12">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Keterangan</label>
+                                    <textarea class="form-control" name="keterangan" cols="30" rows="5"
+                                        placeholder="Masukkan alasan pengembalian"></textarea>
+                                    <div class="input-group has-validation">
+                                        <label class="text-danger error-text keterangan_error"></label>
+                                    </div>
+                                </div>
+                            </div>
                             <button type="submit" class="btn btn-primary">Simpan</button>
                         </form>
                     </div>
@@ -216,13 +239,32 @@
 
     <div class="container-fluid py-4">
         <div class="row">
-            <div class="col-8 col-xl-8">
+            <div class="col-6 col-xl-6">
                 <div class="card h-100">
                     <div class="card-header pb-0 p-3">
-                        <h6 class="mb-0">Produk Pesanan</h6>
+                        <h6 class="mb-0">Produk Dipesan</h6>
                     </div>
                     <div class="card-body">
                         <table class="table table-striped" id="table-data-produk-pesanan">
+                            <thead>
+                                <tr>
+                                    <th>No.</th>
+                                    <th>Nama Produk</th>
+                                    <th>Kuantitas</th>
+                                    <th>Sub Total</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 col-xl-6">
+                <div class="card h-100">
+                    <div class="card-header pb-0 p-3">
+                        <h6 class="mb-0">Produk Diretur</h6>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-striped" id="table-data-produk-pengembalian">
                             <thead>
                                 <tr>
                                     <th>No.</th>
@@ -236,68 +278,12 @@
                     </div>
                 </div>
             </div>
-            <div class="col-4 col-xl-4">
-                <div class="card">
-                    <div class="card-header pb-0 p-3">
-                        <h6 class="mb-0">Status Pesanan</h6>
-                    </div>
-                    <div class="card-body">
-                        <table class="table table-striped" id="table-status-pesanan">
-                            <thead>
-                                <tr>
-                                    <th>Status</th>
-                                    <th>Tanggal</th>
-                                </tr>
-                            </thead>
-                        </table>
-                    </div>
-                    <div class="d-flex justify-content-center" id="status-pesanan">
-                        @php
-                            $produk_pesanan = \App\Models\PesananProduk::where('pesanan_id', $data_pesanan->id)->count();
-                        @endphp
-                        <form action="{{ route('marketing.StatusPesanan') }}" id="formStatusPesanan" method="POST">
-                            <input type="hidden" name="pesanan_id" value="{{ $data_pesanan->id }}" hidden>
-                            @csrf
-                            @if ($status_pesanan->status == null)
-                                <input type="text" value="1" name="status" hidden>
-                                <button type="submit" id="status_button"
-                                    class="btn btn-outline-primary btn-sm">Konfirmasi Siapkan
-                                    pesanan</button>
-                            @elseif($status_pesanan->status == 1)
-                                <input type="text" value="2" name="status" hidden>
-                                <button type="submit" id="status_button"
-                                    class="btn btn-outline-primary btn-sm">Konfirmasi Pesanan
-                                    di proses</button>
-                            @elseif($status_pesanan->status == 2)
-                                @php
-                                    $data_pesanan = \App\Models\Pesanan::where('id', $data_pesanan->id)->first();
-                                    $data_pesanan->update([
-                                        'tanggal_kirim' => \Carbon\Carbon::now(),
-                                    ]);
-                                @endphp
-                                <input type="text" value="3" name="status" hidden>
-                                <button type="submit" id="status_button"
-                                    class="btn btn-outline-primary btn-sm">Konfirmasi Pesanan
-                                    dikirim</button>
-                            @elseif($status_pesanan->status == 3)
-                                <input type="text" value="4" name="status" hidden>
-                                <button type="submit" class="btn btn-outline-primary btn-sm">Konfirmasi Pesanan
-                                    diterima</button>
-                            @elseif($status_pesanan->status == 4)
-                                <button type="submit" class="btn btn-outline-primary btn-sm">Pesanan telah
-                                    diterima</button>
-                            @endif
-                        </form>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 @endsection
 @section('script')
     <script>
         let data_pesanan = @json($data_pesanan);
-
         let daftar_data_produk_pesanan = [];
         const table_data_produk_pesanan = $('#table-data-produk-pesanan').DataTable({
             "destroy": true,
@@ -326,15 +312,6 @@
                 //     d.jurusan_pengguna = data_filter_jurusan;
                 //     return d
                 // }
-            },
-            fnDrawCallback: function() {
-                self.QtdOcorrenciasAgendadosHoje = this.api().page.info().recordsTotal;
-                if (self.QtdOcorrenciasAgendadosHoje == 0) {
-                    return $('#status-pesanan').css("visibility", "hidden");
-                } else if (self.QtdOcorrenciasAgendadosHoje > 0) {
-                    return $('#status-pesanan').css("visibility", "visible");
-                }
-
             },
             columnDefs: [{
                     targets: '_all',
@@ -373,62 +350,28 @@
                         return $.fn.dataTable.render.number('.', ',', 2, 'Rp ').display(row.subtotal);
                     }
                 },
-                {
-                    "targets": 4,
-                    "class": "text-nowrap text-center",
-                    "render": function(data, type, row, meta) {
-                        let tampilan;
-                        tampilan = `
-                            <div class="ms-auto">
-                                <a class="btn btn-link text-danger text-gradient px-3 mb-0 hapus_data_produk_pesanan" id-data-produk-pesanan = "${row.id}" href="#!"><i class="far fa-trash-alt me-2"></i>Hapus</a>
-                            </div>
-                            `
-                        return tampilan;
-                    }
-                },
             ],
-            // rowGroup: {
-            //     startRender: null,
-            //     endRender: function(rows, group, data, type, meta) {
-            //         var container = $('<tr/>');
-            //         container.append('<td colspan= "3"> ' + rows + '</td>');
-            //         var i;
-            //         // for (i = 3; i < table_data_produk_pesanan.columns().header().length; i++) {
-            //         var hourSum = rows
-            //             .data()
-            //             // .pluck(i)
-            //             .reduce(function(a, b) {
-            //                 return a + b * 1;
-            //             }, 0);
-            //         container.append('<td class="text-center">' + "Tes" + '</td>');
-            //         // }
 
-            //         return $(container)
-            //     },
-            //     dataSrc: 0
-            // }
         });
 
-        $('#barang-id').select2({
-            theme: "bootstrap-5",
-        });
-
-        let status_pesanan = [];
-        const table_status_pesanan = $('#table-status-pesanan').DataTable({
+        const table_data_produk_pengembalian = $('#table-data-produk-pengembalian').DataTable({
             "destroy": true,
-            "pageLength": false,
-            "lengthMenu": false,
-            "bLengthChange": false,
+            "pageLength": 10,
+            "lengthMenu": [
+                [10, 25, 50, 100, -1],
+                [10, 25, 50, 100, 'semua']
+            ],
+            "bLengthChange": true,
             "bFilter": false,
-            "bPaginate": false,
-            "bInfo": false,
+            "bInfo": true,
             "ordering": false,
             "processing": true,
-            "bServerSide": false,
+            "bServerSide": true,
+            "responsive": false,
             "sScrollX": '100%',
             "sScrollXInner": "100%",
             ajax: {
-                url: "/marketing/data-status-pesanan/" + data_pesanan.id,
+                url: "/marketing/data-produk-dikembalikan/" + data_pesanan.id,
                 type: "POST",
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -445,35 +388,59 @@
                 },
                 {
                     "targets": 0,
-                    "class": "text-wrap text-center",
+                    "class": "text-nowrap text-center",
                     "render": function(data, type, row, meta) {
-                        daftar_data_produk_pesanan[row.id] = row;
-                        let status;
-                        if (row.status == 1) {
-                            status = 'Pesanan Disiapkan';
-                        } else if (row.status == 2) {
-                            status = 'Pesanan Diproses';
-                        } else if (row.status == 3) {
-                            status = 'Pesanan Dikirim';
-                        } else if (row.status == 4) {
-                            status = 'Pesanan Diterima';
-                        }
-                        return status;
+                        let i = 1;
+                        table_data_produk_pengembalian[row.id] = row;
+                        return meta.row + 1;
                     }
                 },
                 {
                     "targets": 1,
-                    "class": "text-nowrap text-center",
+                    "class": "text-wrap text-center",
                     "render": function(data, type, row, meta) {
-                        daftar_data_produk_pesanan[row.id] = row;
-                        return moment(row.created_at).format('dddd, D MMMM Y HH:mm:ss');
+                        table_data_produk_pengembalian[row.id] = row;
+                        return row.relasi_produk.nama_produk;
                     }
                 },
-            ]
+                {
+                    "targets": 2,
+                    "class": "text-nowrap text-center",
+                    "render": function(data, type, row, meta) {
+                        table_data_produk_pengembalian[row.id] = row;
+                        return row.kuantitas;
+                    }
+                },
+                {
+                    "targets": 3,
+                    "class": "text-nowrap text-center",
+                    "render": function(data, type, row, meta) {
+                        table_data_produk_pengembalian[row.id] = row;
+                        return $.fn.dataTable.render.number('.', ',', 2, 'Rp ').display(row.subtotal);
+                    }
+                },
+                {
+                    "targets": 4,
+                    "class": "text-nowrap text-center",
+                    "render": function(data, type, row, meta) {
+                        let tampilan;
+                        tampilan = `
+                            <div class="ms-auto">
+                                <a class="btn btn-link text-danger text-gradient px-3 mb-0 hapus_data_pengembalian" id-data-pengembalian="${row.id}" href="#!"><i class="far fa-trash me-2"></i>Hapus</a>
+                            </div>
+                            `
+                        return tampilan;
+                    }
+                },
+            ],
+
         });
 
-        var random = 1 + Math.floor(Math.random() * 999999999);
-        $("#kode_transaksi").val("K-" + random);
+        $('#barang-id').select2({
+            theme: "bootstrap-5",
+        });
+
+        let status_pesanan = [];
 
         $("#errorMsg").hide();
         $("#kuantitas").attr('disabled', true)
@@ -481,20 +448,22 @@
         $(document).ready(function() {
             $(document).on('change', '#barang-id', function() {
                 var id = $(this).val();
-                var url = "/marketing/produk-detail/" + id;
+                var pesanan_id = $(this).attr('pesanan-id');
+
+                var url = "/marketing/produk-dipesan/" + pesanan_id + "/" + id;
                 $.ajax({
                     type: 'get',
                     url: url,
                     dataType: 'json',
                     success: function(response) {
-                        let harga = response.produk.harga;
-                        let stok = response.produk.stok;
+                        let harga = response.produk.relasi_produk.harga;
+                        let kuantitas = response.produk.kuantitas;
                         let format = harga.toLocaleString("id-ID", {
                             style: "currency",
                             currency: "IDR"
                         });
                         $('#harga-barang').val(format);
-                        $('#kuantitas').attr('max', stok)
+                        $('#kuantitas').attr('max', kuantitas)
 
                         $("#kuantitas").keyup(function() {
                             var value = $(this).val();
@@ -503,19 +472,31 @@
                         });
 
                         $("#kuantitas").attr('disabled', false)
-
                         $("#kuantitas").keyup(function() {
                             let total = $('#kuantitas').val();
 
-                            if ($('#kuantitas').val() < 0) {
-                                $('#errorMsg').text('Kurang dari stok').css("color",
+                            if (parseInt(total) < 0) {
+                                $('#errorMsg').text('Kurang dari kuantitas').css(
+                                    "color",
                                     "red").show();
-                            } else if ($('#kuantitas').val() > stok) {
-                                $('#errorMsg').text('Melebihi stok').css("color",
+                            } else if (parseInt(total) > kuantitas) {
+                                $('#errorMsg').text('Melebihi kuantitas').css("color",
                                     "red").show();
                             } else {
                                 $('#errorMsg').hide();
                             }
+
+
+                            // if ($('#kuantitas').val() < 0) {
+                            //     $('#errorMsg').text('Kurang dari kuantitas').css(
+                            //         "color",
+                            //         "red").show();
+                            // } else if ($('#kuantitas').val() > kuantitas) {
+                            //     $('#errorMsg').text('Melebihi kuantitas').css("color",
+                            //         "red").show();
+                            // } else {
+                            //     $('#errorMsg').hide();
+                            // }
                         });
                     }
                 });
@@ -557,42 +538,7 @@
             return ("Rp. " + formatted + ((parts) ? "." + parts[1].substr(0, 2) : ",00"));
         };
 
-        $('#formStatusPesanan').on('submit', function(e) {
-            e.preventDefault();
-            $("#status_button").attr('disabled', true);
-            $.ajax({
-                url: $(this).attr('action'),
-                method: $(this).attr('method'),
-                data: new FormData(this),
-                processData: false,
-                dataType: 'json',
-                contentType: false,
-                beforeSend: function() {
-                    $(document).find('label.error-text').text('');
-                },
-                success: function(data) {
-                    if (data.status == 0) {
-                        $.each(data.error, function(prefix, val) {
-                            $('label.' + prefix + '_error').text(val[0]);
-                            // $('span.'+prefix+'_error').text(val[0]);
-                        });
-                    } else if (data.status == 1) {
-                        swal({
-                                title: "Berhasil",
-                                text: `${data.msg}`,
-                                icon: "success",
-                                buttons: true,
-                                successMode: true,
-                            }),
-                            // table_daftar_asesi.ajax.reload(null, false)
-
-                            location.reload();
-                    }
-                }
-            });
-        });
-
-        $('#formDistribusiBarang').on('submit', function(e) {
+        $('#formPengembalianProduk').on('submit', function(e) {
             e.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
@@ -626,17 +572,17 @@
                         $("#kuantitas").val('');
                         $("#subtotal").val('');
                         $("#subtotal1").val('');
-                        $("#errorMsg").hide();
                         $("#kuantitas").attr('disabled', true);
                         $('#barang-id').val('').trigger('change');
+                        table_data_produk_pengembalian.ajax.reload();
                         table_data_produk_pesanan.ajax.reload();
                     }
                 }
             });
         });
 
-        $(document).on('click', '.hapus_data_produk_pesanan', function(event) {
-            const id = $(event.currentTarget).attr('id-data-produk-pesanan');
+        $(document).on('click', '.hapus_data_pengembalian', function(event) {
+            const id = $(event.currentTarget).attr('id-data-pengembalian');
 
             swal({
                 title: "Yakin ?",
@@ -648,7 +594,7 @@
 
                 if (willDelete) {
                     $.ajax({
-                        url: "/marketing/hapus-data-produk-pesanan/" + id,
+                        url: "/marketing/hapus-data-pengembalian/" + id,
                         dataType: 'json',
                         success: function(response) {
                             if (response.status == 0) {
@@ -660,7 +606,8 @@
                                         icon: "success",
                                         successMode: true,
                                     }),
-                                    table_data_produk_pesanan.ajax.reload()
+                                    table_data_produk_pengembalian.ajax.reload();
+                                table_data_produk_pesanan.ajax.reload();
                             }
                         }
                     });

@@ -14,7 +14,12 @@ return new class extends Migration
     public function up()
     {
         Schema::create('pengembalian_produk', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
+            $table->foreignUuid('pesanan_id')->constrained('pesanan')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignUuid('produk_id')->constrained('produk')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->string('kuantitas');
+            $table->string('subtotal');
+            $table->text('keterangan');
             $table->timestamps();
         });
     }
