@@ -72,6 +72,7 @@ Route::middleware(['auth'])->group(function () {
         });
         Route::controller(BarangKeluarController::class)->group(function () {
             Route::get('halaman-barang-keluar', 'halaman_barang_keluar')->name('BarangKeluar');
+            Route::any('data-produk-keluar', 'data_produk_keluar')->name('DataProdukKeluar');
         });
     });
 

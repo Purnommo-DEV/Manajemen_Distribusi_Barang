@@ -13,12 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('produk', function (Blueprint $table) {
+        Schema::create('produk_keluar', function (Blueprint $table) {
             $table->uuid('id')->primary();
-            $table->string('kode', 50);
-            $table->string('nama_produk');
-            $table->bigInteger('harga');
-            $table->integer('stok');
+            $table->foreignUuid('produk_id')->constrained('produk')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->string('kuantitas');
+            $table->string('total')->nullable();
             $table->timestamps();
         });
     }
@@ -30,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('produk');
+        Schema::dropIfExists('produk_keluar');
     }
 };

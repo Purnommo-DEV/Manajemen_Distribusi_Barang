@@ -9,6 +9,7 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\PesananProduk;
+use App\Models\ProdukKeluar;
 use App\Models\StatusPesanan;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Validator;
@@ -247,6 +248,14 @@ class Marketing_PesananController extends Controller
     }
 
     public function status_pesanan(Request $request){
+        $data_produk_pesanan = PesananProduk::where('pesanan_id', $request->data_pesanan_id)->get();
+        foreach($data_produk_pesanan as $i => $produk_pesanan){
+            ProdukKeluar::create([
+                'produk_id' => $produk_pesanan['produk_id'],
+                'kuantitas' => $produk_pesanan['kuantitas'],
+                'total'     => $produk_pesanan['subtotal'],
+            ]);
+        }
         Pesanan::where('id', $request->pesanan_id)->update([
             'status' => $request->status
         ]);
