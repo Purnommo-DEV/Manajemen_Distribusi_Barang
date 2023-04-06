@@ -78,6 +78,7 @@
                                 <thead>
                                     <tr>
                                         <th>No.</th>
+                                        <th>Kode Produk</th>
                                         <th>Nama Produk</th>
                                         <th>Harga</th>
                                         <th>Stok</th>
@@ -196,7 +197,7 @@
                     "class": "text-wrap text-center",
                     "render": function(data, type, row, meta) {
                         daftar_data_produk[row.id] = row;
-                        return row.nama_produk;
+                        return row.kode;
                     }
                 },
                 {
@@ -204,11 +205,19 @@
                     "class": "text-wrap text-center",
                     "render": function(data, type, row, meta) {
                         daftar_data_produk[row.id] = row;
-                        return $.fn.dataTable.render.number('.', ',', 2, 'Rp ').display(row.harga);
+                        return row.nama_produk;
                     }
                 },
                 {
                     "targets": 3,
+                    "class": "text-wrap text-center",
+                    "render": function(data, type, row, meta) {
+                        daftar_data_produk[row.id] = row;
+                        return $.fn.dataTable.render.number('.', ',', 2, 'Rp ').display(row.harga);
+                    }
+                },
+                {
+                    "targets": 4,
                     "class": "text-wrap text-center",
                     "render": function(data, type, row, meta) {
                         daftar_data_produk[row.id] = row;

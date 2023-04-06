@@ -27,8 +27,11 @@ class ProdukController extends Controller
         ])->orderBy('created_at', 'desc');
 
         if($request->input('search.value')!=null){
-            $data = $data->where(function($q)use($request){
-                    $q->whereRaw('LOWER(nama_produk) like ?',['%'.strtolower($request->input('search.value')).'%']);
+            $data = $data->
+                    where(function($q)use($request){
+                        $q->whereRaw('LOWER(nama_produk) like ?',['%'.strtolower($request->input('search.value')).'%']);
+                    })->orWhere(function($q2)use($request){
+                        $q2->whereRaw('LOWER(kode) like ?',['%'.strtolower($request->input('search.value')).'%']);
             });
         }
 

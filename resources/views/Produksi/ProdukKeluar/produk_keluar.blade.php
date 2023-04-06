@@ -18,6 +18,7 @@
                                 <thead>
                                     <tr>
                                         <th>No.</th>
+                                        <th>Kode</th>
                                         <th>Nama Produk</th>
                                         <th>Kuantitas</th>
                                         <th>Total</th>
@@ -48,7 +49,7 @@
             "processing": true,
             "bServerSide": true,
             "responsive": false,
-            "searching": false,
+            "searching": true,
             "sScrollX": '100%',
             "sScrollXInner": "100%",
             ajax: {
@@ -81,7 +82,7 @@
                     "class": "text-wrap text-center",
                     "render": function(data, type, row, meta) {
                         daftar_data_produk_keluar[row.id] = row;
-                        return row.relasi_produk.nama_produk;
+                        return row.relasi_produk.kode;
                     }
                 },
                 {
@@ -89,7 +90,7 @@
                     "class": "text-wrap text-center",
                     "render": function(data, type, row, meta) {
                         daftar_data_produk_keluar[row.id] = row;
-                        return row.kuantitas;
+                        return row.relasi_produk.nama_produk;
                     }
                 },
                 {
@@ -97,11 +98,19 @@
                     "class": "text-wrap text-center",
                     "render": function(data, type, row, meta) {
                         daftar_data_produk_keluar[row.id] = row;
-                        return $.fn.dataTable.render.number('.', ',', 2, 'Rp ').display(row.total);
+                        return row.kuantitas;
                     }
                 },
                 {
                     "targets": 4,
+                    "class": "text-wrap text-center",
+                    "render": function(data, type, row, meta) {
+                        daftar_data_produk_keluar[row.id] = row;
+                        return $.fn.dataTable.render.number('.', ',', 2, 'Rp ').display(row.total);
+                    }
+                },
+                {
+                    "targets": 5,
                     "class": "text-wrap text-center",
                     "render": function(data, type, row, meta) {
                         daftar_data_produk_keluar[row.id] = row;

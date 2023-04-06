@@ -146,7 +146,7 @@
                                 <div class="col-6">
                                     <div class="form-group">
                                         <label for="exampleInputPassword1">Tanggal</label>
-                                        <input type="text" class="form-control"
+                                        <input type="datetime-local" class="form-control"
                                             value="{{ $data_pesanan->tanggal_pesan }}" readonly>
                                     </div>
                                 </div>
