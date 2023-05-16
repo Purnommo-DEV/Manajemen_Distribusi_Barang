@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Carbon\Carbon;
 use App\Models\Produk;
 use App\Models\Pesanan;
 use Illuminate\Http\Request;
@@ -20,11 +21,46 @@ class Admin_LaporanController extends Controller
             'pesanan.*'
         ])->with(['relasi_distributor', 'relasi_status'])->orderBy('created_at', 'desc');
         
+        // $tgl_awal = $request->input('data_tgl_awal');
+        // $tgl_akhir = $request->input('data_tgl_akhir');
+
+        // dd($tgl_awal, $tgl_akhir);
+
+        // if ($request->input('tgl_awal') && $request->input('tgl_akhir')) {
+
+        //     $tgl_awal  = Carbon::parse($request->input('tgl_awal'));
+        //     $tgl_akhir = Carbon::parse($request->input('tgl_akhir'));
+
+        //     if ($tgl_akhir->greaterThan($tgl_awal)) {
+        //         $rekamFilter = $data->get()->count();
+        //         if($request->input('length')!=-1) 
+        //             $data = $data->skip($request->input('start'))->take($request->input('length'));
+        //             $rekamTotal = $data->count();
+        //             $data = $data->whereBetween('created_at', [$tgl_awal, $tgl_akhir])->get();
+        //     } else {
+        //         $rekamFilter = $data->get()->count();
+        //         if($request->input('length')!=-1) 
+        //             $data = $data->skip($request->input('start'))->take($request->input('length'));
+        //             $rekamTotal = $data->count();
+        //             $data = $data->get();
+        //     }
+            
+        // }else{
+        //     $rekamFilter = $data->get()->count();
+        //     if($request->input('length')!=-1) 
+        //     $data = $data->skip($request->input('start'))->take($request->input('length'));
+        //     $rekamTotal = $data->count();
+        //     $data = $data->latest()->get();
+        // }
+        // if($request->input('role_pengguna')!=null){
+        //     $data = $data->where('role_id', $request->role_pengguna);
+        // }
         $rekamFilter = $data->get()->count();
-        if($request->input('length')!=-1) 
+            if($request->input('length')!=-1) 
             $data = $data->skip($request->input('start'))->take($request->input('length'));
             $rekamTotal = $data->count();
-            $data = $data->get();
+            $data = $data->latest()->get();
+        
         return response()->json([
             'draw'=>$request->input('draw'),
             'data'=>$data,

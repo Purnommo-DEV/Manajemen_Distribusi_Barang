@@ -21,46 +21,52 @@ class DatabaseSeeder extends Seeder
     {
 
         Roles::create([
-            'role'     => 'superadmin',
-        ]);
-        Roles::create([
             'role'     => 'admin',
         ]);
         Roles::create([
-            'role'     => 'marketing',
+            'role'     => 'sales_retail',
         ]);
         Roles::create([
-            'role'     => 'produksi',
+            'role'     => 'sales_ws',
+        ]);
+        Roles::create([
+            'role'     => 'spv',
+        ]);
+        Roles::create([
+            'role'     => 'gudang',
         ]);
 
         User::create([
-            'nama'     => 'superadmin',
-            'email'    => 'superadmin@gmail.com',
+            'nama'     => 'admin',
+            'kode'     => 'admin-AD',
+            'email'    => 'admin@gmail.com',
             'password' => Hash::make('22222222'),
             'role_id' => 1
         ]);
-        User::create([
-            'nama'     => 'admin',
-            'email'    => 'admin@gmail.com',
-            'password' => Hash::make('22222222'),
-            'role_id' => 2
-        ]);
-        User::create([
-            'nama'     => 'marketing',
-            'email'    => 'marketing@gmail.com',
-            'password' => Hash::make('22222222'),
-            'role_id' => 3
-        ]);
-        User::create([
-            'nama'     => 'produksi',
-            'email'    => 'produksi@gmail.com',
-            'password' => Hash::make('22222222'),
-            'role_id' => 4
-        ]);
+        // User::create([
+        //     'nama'     => 'sales_retail',
+        //     'email'    => 'sales_retail@gmail.com',
+        //     'password' => Hash::make('22222222'),
+        //     'role_id' => 2
+        // ]);
+        // User::create([
+        //     'nama'     => 'sales_ws',
+        //     'email'    => 'sales_ws@gmail.com',
+        //     'password' => Hash::make('22222222'),
+        //     'role_id' => 3
+        // ]);
+        // User::create([
+        //     'nama'     => 'spv',
+        //     'email'    => 'spv@gmail.com',
+        //     'password' => Hash::make('22222222'),
+        //     'role_id' => 4
+        // ]);
 
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
+        // User::create([
+        //     'nama'     => 'gudang',
+        //     'email'    => 'gudang@gmail.com',
+        //     'password' => Hash::make('22222222'),
+        //     'role_id' => 5
         // ]);
     }
 }

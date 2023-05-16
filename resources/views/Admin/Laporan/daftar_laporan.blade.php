@@ -13,6 +13,28 @@
             <div class="col profil-section" style="margin-bottom: 0% !important">
                 <div class="col pb-10">
                     <div class="card">
+                        {{-- <div class="card-header" style="margin-bottom: -30px;">
+                            <div class="row">
+                                <div class="col-4">
+                                    <div class="input-group mb-2">
+                                        <input type="date" class="form-control form-control-sm" id="tgl_awal"
+                                            placeholder="Tanggal Awal">
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="input-group mb-2">
+                                        <input type="date" class="form-control form-control-sm" id="tgl_akhir"
+                                            placeholder="Tanggal Akhir">
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="input-group mb-2">
+                                        <button type="button" id="filter" class="btn btn-sm btn-primary">Filter</button>
+                                        <button type="button" id="reset" class="btn btn-sm btn-warning">Reset</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> --}}
                         <div class="card-body">
                             <table class="table table-striped" id="table-data-pesanan">
                                 <thead>
@@ -37,6 +59,10 @@
 @section('script')
     <script>
         let daftar_data_pesanan = [];
+        let data_tgl_awal = $("#tgl_awal").val();
+        let data_tgl_akhir = $("#tgl_akhir").val();
+
+        // function fetch(tgl_awal, tgl_akhir) {
         const table_data_pesanan = $('#table-data-pesanan').DataTable({
             "destroy": true,
             "pageLength": 10,
@@ -59,11 +85,11 @@
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
-                // data: function(d) {
-                //     d.role_pengguna = data_role_pengguna;
-                //     d.jurusan_pengguna = data_filter_jurusan;
-                //     return d
-                // }
+                data: function(d) {
+                    d.tgl_awal = data_tgl_awal;
+                    d.tgl_akhir = data_tgl_akhir;
+                    return d
+                }
             },
             columnDefs: [{
                     targets: '_all',
@@ -153,6 +179,39 @@
                     }
                 },
             ]
+        });
+        // }
+
+        // fetch();
+
+        // $(document).on("click", "#filter", function(e) {
+        //     e.preventDefault();
+        //     data_tgl_awal = $("#tgl_awal").val();
+        //     data_tgl_akhir = $("#tgl_akhir").val();
+        //     if (tgl_awal == "" || tgl_akhir == "") {
+        //         return alert("Tanggal wajib diisi");
+        //     } else {
+        //         $('#table-data-pesanan').DataTable().destroy();
+        //         fetch(data_tgl_awal, data_tgl_akhir);
+        //     }
+        // })
+
+        // $(document).on("click", "#reset", function(e) {
+        //     e.preventDefault();
+        //     $("#tgl_awal").val(''); // empty value
+        //     $("#tgl_akhir").val('');
+        //     $('#table-data-pesanan').DataTable().destroy();
+        //     fetch();
+        // });
+
+        table_data_pesanan.on('preXhr.dt', function(e, settings, data) {
+            data.data_tgl_awal = $("#tgl_awal").val();
+            data.data_tgl_akhir = $("#tgl_akhir").val();
+        });
+
+        $('#filter').on('click', function() {
+            table_data_pesanan.ajax.reload();
+            return false;
         });
     </script>
 @endsection
