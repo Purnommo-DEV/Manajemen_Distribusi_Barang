@@ -7,11 +7,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-use App\Traits\Uuids;
+// use App\Traits\Uuids;
 
 class User extends Authenticatable
 {
-    use Uuids;
+    // use Uuids;
     use HasApiTokens, HasFactory, Notifiable;
 
     /**
@@ -21,6 +21,7 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'nama',
+        'kode',
         'email',
         'password',
         'role_id',
@@ -43,9 +44,10 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-    ]; 
+    ];
 
-    public function relasi_role(){
+    public function relasi_role()
+    {
         return $this->belongsTo(Roles::class, 'role_id', 'id');
     }
 }

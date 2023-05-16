@@ -5,8 +5,8 @@
             aria-hidden="true" id="iconSidenav"></i>
         <a class="navbar-brand m-0" href=" https://demos.creative-tim.com/soft-ui-dashboard/pages/dashboard.html "
             target="_blank">
-            <img src="{{ asset('Assets/img/logo-ct-dark.png') }}" class="navbar-brand-img h-100" alt="main_logo">
-            <span class="ms-2 font-weight-bold">Distribusi Barang</span>
+            <img src="{{ asset('Assets/logo/PT_SWS_V1.png') }}" class="navbar-brand-img h-100" alt="main_logo">
+            <span class="ms-2 font-weight-bold">PT. Sumber Wijaya Sakti</span>
         </a>
     </div>
     <hr class="horizontal dark mt-0">
@@ -14,7 +14,7 @@
         <ul class="navbar-nav">
 
             {{-- SUPERADMIN --}}
-            @if (Auth::user()->relasi_role->role == 'superadmin')
+            {{-- @if (Auth::user()->relasi_role->role == 'superadmin')
                 <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('superadmin.Dashboard*') ? 'active' : '' }} "
                         href="{{ route('superadmin.Dashboard') }}">
@@ -36,11 +36,11 @@
                         </div>
                         <span class="nav-link-text ms-1">Data Pengguna</span>
                     </a>
-                </li>
+                </li> --}}
 
 
-                {{-- ADMIN --}}
-            @elseif (Auth::user()->relasi_role->role == 'admin')
+            {{-- ADMIN --}}
+            @if (Auth::user()->relasi_role->role == 'admin')
                 <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('admin.Dashboard*') ? 'active' : '' }} "
                         href="{{ route('admin.Dashboard') }}">
@@ -52,6 +52,46 @@
                         </div>
                         <span class="nav-link-text ms-1">Dashboard</span>
                     </a>
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('admin.Produk*') ? 'active' : '' }} "
+                        href="{{ route('admin.Produk') }}">
+                        <div
+                            class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+
+                            <i
+                                class="fas fa-boxes {{ request()->routeIs('admin.Produk*') ? 'warna-white' : 'warna-black' }}"></i>
+
+                        </div>
+                        <span class="nav-link-text ms-1">Produk</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('admin.HalamanCustomer*') ? 'active' : '' }} "
+                        href="{{ route('admin.HalamanCustomer') }}">
+                        <div
+                            class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+
+                            <i
+                                class="fas fa-store {{ request()->routeIs('admin.HalamanCustomer*') ? 'warna-white' : 'warna-black' }}"></i>
+
+                        </div>
+                        <span class="nav-link-text ms-1">Customer</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('admin.HalamanPengguna*') ? 'active' : '' }} "
+                        href="{{ route('admin.HalamanPengguna') }}">
+                        <div
+                            class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+
+                            <i
+                                class="fas fa-users {{ request()->routeIs('admin.HalamanPengguna*') ? 'warna-white' : 'warna-black' }}"></i>
+
+                        </div>
+                        <span class="nav-link-text ms-1">Pengguna</span>
+                    </a>
+                </li>
+                {{-- <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('admin.Laporan*') ? 'active' : '' }} "
                         href="{{ route('admin.Laporan') }}">
                         <div
@@ -62,14 +102,14 @@
                         </div>
                         <span class="nav-link-text ms-1">Laporan</span>
                     </a>
-                </li>
+                </li> --}}
 
 
 
 
 
                 {{-- MARKETING --}}
-            @elseif (Auth::user()->relasi_role->role == 'marketing')
+                {{-- @elseif (Auth::user()->relasi_role->role == 'marketing')
                 <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('marketing.Dashboard*') ? 'active' : '' }} "
                         href="{{ route('marketing.Dashboard') }}">
@@ -130,11 +170,11 @@
                         </div>
                         <span class="nav-link-text ms-1">Pengembalian</span>
                     </a>
-                </li>
+                </li> --}}
 
 
                 {{-- PRODUKSI --}}
-            @elseif (Auth::user()->relasi_role->role == 'produksi')
+                {{-- @elseif (Auth::user()->relasi_role->role == 'produksi')
                 <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('produksi.Dashboard*') ? 'active' : '' }} "
                         href="{{ route('produksi.Dashboard') }}">
@@ -168,7 +208,7 @@
                         </div>
                         <span class="nav-link-text ms-1">Barang Keluar</span>
                     </a>
-                </li>
+                </li> --}}
             @endif
             <li class="nav-item">
                 <a class="nav-link {{ request()->routeIs('Logout*') ? 'active' : '' }} " href="{{ route('Logout') }}">

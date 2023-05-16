@@ -3,8 +3,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('Assets/img/apple-icon.png') }}">
-    <link rel="icon" type="image/png" href="{{ asset('Assets/img/favicon.png') }}">
+    <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('Assets/logo/PT_SWS_V1.png') }}">
+    <link rel="icon" type="image/png" href="{{ asset('Assets/logo/PT_SWS_V1.png') }}">
     <title>{{ isset($title) ? $title . ' | ' . config('app.name') : config('app.name') }}</title>
     <!--     Fonts and icons     -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
