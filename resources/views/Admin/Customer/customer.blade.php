@@ -95,6 +95,7 @@
                                         <th>Alamat</th>
                                         <th>Nomor HP</th>
                                         <th>Jenis</th>
+                                        <th>Barcode</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
@@ -256,6 +257,17 @@
                 },
                 {
                     "targets": 6,
+                    "class": "text-wrap text-center",
+                    "render": function(data, type, row, meta) {
+                        daftar_data_customer[row.id] = row;
+                        return `<div class="ms-auto">
+                                    <a class="btn btn-link text-danger text-gradient px-3 mb-0" href="/admin/print-barcode-customer/${row.kode}"><i class="fa fa-print me-2"></i> Print</a>
+                                </div>
+                                `
+                    }
+                },
+                {
+                    "targets": 7,
                     "class": "text-nowrap text-center",
                     "render": function(data, type, row, meta) {
                         let tampilan;

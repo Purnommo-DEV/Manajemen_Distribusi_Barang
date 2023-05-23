@@ -91,6 +91,32 @@
                         <span class="nav-link-text ms-1">Pengguna</span>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('admin.HalamanArea*') ? 'active' : '' }} "
+                        href="{{ route('admin.HalamanArea') }}">
+                        <div
+                            class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+
+                            <i
+                                class="fas fa-map-marker {{ request()->routeIs('admin.HalamanArea*') ? 'warna-white' : 'warna-black' }}"></i>
+
+                        </div>
+                        <span class="nav-link-text ms-1">Area</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {{ request()->routeIs('admin.HalamanKendaraan*') ? 'active' : '' }} "
+                        href="{{ route('admin.HalamanKendaraan') }}">
+                        <div
+                            class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+
+                            <i
+                                class="fas fa-truck-pickup {{ request()->routeIs('admin.HalamanKendaraan*') ? 'warna-white' : 'warna-black' }}"></i>
+
+                        </div>
+                        <span class="nav-link-text ms-1">Kendaraan</span>
+                    </a>
+                </li>
                 {{-- <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('admin.Laporan*') ? 'active' : '' }} "
                         href="{{ route('admin.Laporan') }}">

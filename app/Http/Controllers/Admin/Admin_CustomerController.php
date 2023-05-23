@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Storage;
 use App\Models\Customer;
+use PDF;
+use Milon\Barcode\DNS2D;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
+use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class Admin_CustomerController extends Controller
 {
@@ -64,13 +68,19 @@ class Admin_CustomerController extends Controller
                 'error' => $validator->errors()->toArray()
             ]);
         } else {
-            $tambacustomer = Customer::create([
-                'kode' => 'CS-' . Str::random(7),
-                'nama' => $request->nama,
-                'alamat' => $request->alamat,
-                'nomor_hp' => $request->nomor_hp,
-                'jenis_customer' => $request->jenis_customer,
-            ]);
+
+            $tambacustomer = new Customer();
+            $tambacustomer->kode = 'CS-' . Str::random(7);
+            $tambacustomer->nama = $request->nama;
+            $tambacustomer->alamat = $request->alamat;
+            $tambacustomer->nomor_hp = $request->nomor_hp;
+            $tambacustomer->jenis_customer = $request->jenis_customer;
+            // Barcode
+            $nama_file = $tambacustomer->nama . '.png';
+            $penyimpanan = 'storage/barcode/' . $tambacustomer->kode . '-' . $nama_file;
+            QrCode::size(300)->generate($tambacustomer->kode, $penyimpanan);
+            $tambacustomer->barcode = 'barcode/' . $tambacustomer->kode . '-' . $nama_file;
+            $tambacustomer->save();
 
             if (!$tambacustomer) {
                 return response()->json([
@@ -85,6 +95,15 @@ class Admin_CustomerController extends Controller
             }
         }
     }
+
+    public function print_barcode_customer($kode)
+    {
+        $data_customer = Customer::where('kode', $kode)->first();
+        return view('Admin.Customer.print_barcode', compact('data_customer'));
+        // $pdf = Pdf::loadView('Admin.Customer.print_barcode', ['data_customer' => $data_customer])->setOptions(['defaultFont' => 'sans-serif']);
+        // return $pdf->stream('Barcode' . $data_customer->kode . $data_customer->nama . '.pdf');
+    }
+
     public function ubah_data_customer(Request $request)
     {
 
@@ -129,7 +148,7 @@ class Admin_CustomerController extends Controller
         }
     }
 
-    public function hapuscustomer($id)
+    public function hapus_data_customer($id)
     {
         $hapuscustomer = Customer::find($id)->delete();
         if (!$hapuscustomer) {
