@@ -23,7 +23,7 @@
 
         <div class="card">
             <div class="card-header d-flex justify-content-center">
-                <h2>Color QR Code</h2>
+                <h2>{{ $data_customer->nama }}</h2>
             </div>
             <div class="card-body">
 

@@ -13,9 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('perjalanan', function (Blueprint $table) {
-            $table->string('kode')->after('id');
-            $table->dropColumn('list_rute');
+        Schema::table('rute', function (Blueprint $table) {
+            $table->string('tanggal')->after('customer_id');
+            $table->integer('status')->after('tanggal');
         });
     }
 
@@ -26,7 +26,7 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('perjalanan', function (Blueprint $table) {
+        Schema::table('rute', function (Blueprint $table) {
             //
         });
     }

@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\Admin_CustomerController;
 use App\Http\Controllers\Admin\Admin_PenggunaController;
 use App\Http\Controllers\Admin\Admin_DashboardController;
 use App\Http\Controllers\Admin\Admin_KendaraanController;
+use App\Http\Controllers\Admin\Admin_Perencanaan;
 use App\Http\Controllers\Admin\WilayahIndonesiaController;
 
 /*
@@ -104,6 +105,21 @@ Route::middleware(['auth'])->group(function () {
             Route::get('kota', 'kota')->name('Kota');
             Route::get('kecamatan', 'kecamatan')->name('Kecamatan');
             Route::get('desa', 'desa')->name('Desa');
+        });
+
+        //PERENCANAAN
+        Route::controller(Admin_Perencanaan::class)->group(function () {
+            Route::get('halaman-perjalanan', 'halaman_perjalanan')->name('HalamanPerjalanan');
+            Route::any('data-perjalanan', 'data_perjalanan')->name('DataPerjalanan');
+            Route::post('tambah-data-perjalanan', 'tambah_data_perjalanan')->name('TambahDataPerjalanan');
+            Route::post('ubah-data-perjalanan', 'ubah_data_perjalanan')->name('UbahDataPerjalanan');
+            Route::get('hapus-data-perjalanan/{id}', 'hapus_data_perjalanan')->name('HapusDataPerjalanan');
+
+            Route::get('halaman-kunjungi-customer/{kode_perjalanan}', 'halaman_kunjungi_customer')->name('HalamanPerjalanan.HalamanKunjungiCustomer');
+            Route::any('data-kunjungi-customer/{perjalanan_id}', 'data_kunjungi_customer')->name('DataKunjungiCustomer');
+            Route::post('tambah-data-kunjungi-customer', 'tambah_data_kunjungi_customer')->name('TambahDataKunjungiCustomer');
+            Route::post('ubah-data-kunjungi-customer', 'ubah_data_kunjungi_customer')->name('UbahDataKunjungiCustomer');
+            Route::get('hapus-data-kunjungi-customer/{id}', 'hapus_data_kunjungi_customer')->name('HapusDataKunjungiCustomer');
         });
 
         // Route::controller(Admin_LaporanController::class)->group(function () {

@@ -1,10 +1,10 @@
-@extends('Layout.master', ['title' => 'Data Pengguna'])
+@extends('Layout.master', ['title' => 'Jadwal Perjalanan'])
 @section('nav')
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
-            <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="javascript:;">Data Pengguna/</a></li>
+            <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="javascript:;">Jadwal Perjalanan/</a></li>
         </ol>
-        <h6 class="font-weight-bolder mb-0">Data Pengguna</h6>
+        <h6 class="font-weight-bolder mb-0">Jadwal Perjalanan</h6>
     </nav>
 @endsection
 @section('konten')
@@ -15,69 +15,43 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="buttons">
-                                <a id="tombol-tambah-pengguna"
+                                <a id="tombol-tambah-customer"
                                     class="btn btn-sm btn-primary rounded-pill text-white fw-semibold tambah_isi_elemen"
-                                    href="#" data-bs-toggle="modal" data-bs-target="#modalTambahPengguna"><i
-                                        class="fa fa-plus fa-xs"></i> Tambah Pengguna
+                                    href="#" data-bs-toggle="modal" data-bs-target="#modalTambahCustomer"><i
+                                        class="fa fa-plus fa-xs"></i> Tambah Jadwal Perjalanan
                                 </a>
                             </div>
-                            <div class="modal fade text-left" id="modalTambahPengguna" data-bs-backdrop="static"
+                            <div class="modal fade text-left" id="modalTambahCustomer" data-bs-backdrop="static"
                                 data-bs-keyboard="false" aria-labelledby="myModalLabel33" aria-hidden="true">>
                                 <div class="modal-dialog modal-dialog-centered">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h4 class="modal-title" id="myModalLabel33">Tambah Pengguna</h4>
-                                            <button type="button" class="close batal" data-bs-dismiss="modal"
-                                                aria-label="Close">
-                                                <i data-feather="x"></i>
-                                            </button>
+                                            <h4 class="modal-title" id="myModalLabel33">Tambah Jadwal Perjalanan</h4>
                                         </div>
-                                        <form action="{{ route('admin.TambahDataPengguna') }}" id="formTambahPengguna"
-                                            method="POST">
+                                        <form action="{{ route('admin.TambahDataKunjungiCustomer') }}"
+                                            id="formTambahKunjungiCustomer" method="POST">
                                             @csrf
+                                            <input type="hidden" name="perjalanan_id" value="{{ $perjalanan->id }}" hidden>
                                             <div class="modal-body">
-                                                <label>Nama Lengkap</label>
+                                                <label>Customer</label>
                                                 <div class="form-group">
-                                                    <input type="text" name="nama" placeholder="Nama Lengkap"
-                                                        class="form-control rounded-5">
-                                                    <div class="input-group has-validation">
-                                                        <label class="text-danger error-text nama_error"></label>
-                                                    </div>
-                                                </div>
-                                                <label>Email</label>
-                                                <div class="form-group">
-                                                    <input type="text" name="email" placeholder="Email"
-                                                        class="form-control rounded-5">
-                                                    <div class="input-group has-validation">
-                                                        <label class="text-danger error-text email_error"></label>
-                                                    </div>
-                                                </div>
-                                                <label>Password</label>
-                                                <div class="form-group">
-                                                    <div class="input-group has-validation">
-                                                        <input name="password" type="password" class="form-control"
-                                                            id="password" />
-                                                        <span class="input-group-text" style="height: 83%;margin-left: 92%;"
-                                                            onclick="password_show_hide1();">
-                                                            <i class="fas fa-eye" id="show_eye"></i>
-                                                            <i class="fas fa-eye-slash d-none" id="hide_eye"></i>
-                                                        </span>
-                                                        <div class="input-group has-validation">
-                                                            <label class="text-danger error-text password_error"></label>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <label>Role</label>
-                                                <div class="form-group">
-                                                    <select class="form-control" name="role_id" id="pilih-role">
-                                                        <option value="" selected disabled>Pilih Role</option>
-                                                        @foreach ($role as $roles)
-                                                            <option value="{{ $roles->id }}">{{ $roles->role }}</option>
+                                                    <select class="form-control" name="customer_id" id="pilih-customer">
+                                                        <option value="" selected disabled>-- Pilih Customer --
+                                                        </option>
+                                                        @foreach ($customer_retail as $data_customer_retail)
+                                                            <option value="{{ $data_customer_retail->id }}">
+                                                                {{ $data_customer_retail->nama }}</option>
                                                         @endforeach
                                                     </select>
                                                     <div class="input-group has-validation">
-                                                        <label class="text-danger error-text role_id_error"></label>
+                                                        <label class="text-danger error-text customer_id_error"></label>
+                                                    </div>
+                                                </div>
+                                                <label>Tanggal</label>
+                                                <div class="form-group">
+                                                    <input type="datetime-local" name="tanggal" class="form-control">
+                                                    <div class="input-group has-validation">
+                                                        <label class="text-danger error-text tanggal_error"></label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -95,13 +69,13 @@
                                     </div>
                                 </div>
                             </div>
-                            <table class="table table-striped" id="table-data-pengguna">
+                            <table class="table table-striped" id="table-data-kunjungi-customer">
                                 <thead>
                                     <tr>
                                         <th>No.</th>
-                                        <th>Nama Pengguna</th>
-                                        <th>Email</th>
-                                        <th>Jabatan</th>
+                                        <th>Nama Customer</th>
+                                        <th>Tanggal</th>
+                                        <th>Status</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
@@ -115,63 +89,40 @@
 
     {{-- MODAL EDIT DATA PENGGUNA --}}
     {{-- MODAL EDIT --}}
-    <div class="modal fade text-left" id="modalEditPengguna" data-bs-backdrop="static" data-bs-keyboard="false"
+    <div class="modal fade text-left" id="modalEditKunjungiCustomer" data-bs-backdrop="static" data-bs-keyboard="false"
         aria-labelledby="myModalLabel33" aria-hidden="true">>
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title" id="myModalLabel33">Ubah Pengguna</h4>
+                    <h4 class="modal-title" id="myModalLabel33">Ubah Jadwal Perjalanan</h4>
                     <button type="button" class="close batal" data-bs-dismiss="modal" aria-label="Close">
                         <i data-feather="x"></i>
                     </button>
                 </div>
-                <form id="formEditPengguna" action="{{ route('admin.UbahDataPengguna') }}" method="POST">
+                <form id="formEditKunjungiCustomer" action="{{ route('admin.UbahDataKunjungiCustomer') }}" method="POST">
                     <input type="hidden" name="id" hidden>
                     @csrf
                     <div class="modal-body">
-                        <label>Nama Lengkap</label>
+                        <label>Customer</label>
                         <div class="form-group">
-                            <input type="text" name="nama" placeholder="Nama Lengkap"
-                                class="form-control rounded-5">
-                            <div class="input-group has-validation">
-                                <label class="text-danger error-text nama_error"></label>
-                            </div>
-                        </div>
-                        <label>Email</label>
-                        <div class="form-group">
-                            <input type="text" name="email" placeholder="Email" class="form-control rounded-5">
-                            <div class="input-group has-validation">
-                                <label class="text-danger error-text email_error"></label>
-                            </div>
-                        </div>
-                        <label>Password</label>
-                        <div class="form-group">
-                            <div class="input-group has-validation">
-                                <input name="password" type="password" class="form-control rounded-5" id="password_edit"
-                                    placeholder="Kosongkan jika tidak ingin diubah" />
-                                <span class="input-group-text" style="height: 83%;margin-left: 92%;"
-                                    onclick="password_show_hide2();">
-                                    <i class="fas fa-eye" id="e_show_eye"></i>
-                                    <i class="fas fa-eye-slash d-none" id="e_hide_eye"></i>
-                                </span>
-                                <div class="input-group has-validation">
-                                    <label class="text-danger error-text password_error"></label>
-                                </div>
-                            </div>
-                        </div>
-
-                        <label>Role</label>
-                        <div class="form-group">
-                            <select class="form-control" name="role_id" id="role">
+                            <select class="form-control" name="customer_id" id="customer">
+                                <option value="" selected disabled>-- Pilih Customer --
+                                </option>
                             </select>
                             <div class="input-group has-validation">
-                                <label class="text-danger error-text role_id_error"></label>
+                                <label class="text-danger error-text customer_id_error"></label>
+                            </div>
+                        </div>
+                        <label>Tanggal</label>
+                        <div class="form-group">
+                            <input type="datetime-local" name="tanggal" class="form-control">
+                            <div class="input-group has-validation">
+                                <label class="text-danger error-text tanggal_error"></label>
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-light-secondary batal rounded-pill"
-                            data-bs-dismiss="modal">
+                        <button type="button" class="btn btn-light-secondary batal rounded-pill" data-bs-dismiss="modal">
                             Batal
                         </button>
                         <button type="submit" class="btn btn-primary ml-1 rounded-pill">
@@ -185,8 +136,9 @@
 @endsection
 @section('script')
     <script>
-        let daftar_data_pengguna = [];
-        const table_data_pengguna = $('#table-data-pengguna').DataTable({
+        let perjalanan_id = @json($perjalanan);
+        let daftar_data_kunjungi_customer = [];
+        const table_data_kunjungi_customer = $('#table-data-kunjungi-customer').DataTable({
             "destroy": true,
             "pageLength": 10,
             "lengthMenu": [
@@ -202,7 +154,7 @@
             "sScrollX": '100%',
             "sScrollXInner": "100%",
             ajax: {
-                url: "{{ route('admin.DataPengguna') }}",
+                url: "/admin/data-kunjungi-customer/" + perjalanan_id.id,
                 type: "POST",
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -222,7 +174,7 @@
                     "class": "text-nowrap text-center",
                     "render": function(data, type, row, meta) {
                         let i = 1;
-                        daftar_data_pengguna[row.id] = row;
+                        daftar_data_kunjungi_customer[row.id] = row;
                         return meta.row + 1;
                     }
                 },
@@ -230,24 +182,31 @@
                     "targets": 1,
                     "class": "text-wrap text-center",
                     "render": function(data, type, row, meta) {
-                        daftar_data_pengguna[row.id] = row;
-                        return row.nama;
+                        daftar_data_kunjungi_customer[row.id] = row;
+                        return row.relasi_customer.nama;
                     }
                 },
                 {
                     "targets": 2,
                     "class": "text-wrap text-center",
                     "render": function(data, type, row, meta) {
-                        daftar_data_pengguna[row.id] = row;
-                        return row.email;
+                        daftar_data_kunjungi_customer[row.id] = row;
+                        return moment(row.tanggal).format('dddd, DD-MMMM-YYYY, h:mm:ss');
                     }
                 },
                 {
                     "targets": 3,
                     "class": "text-wrap text-center",
                     "render": function(data, type, row, meta) {
-                        daftar_data_pengguna[row.id] = row;
-                        return row.relasi_role.role;
+                        daftar_data_kunjungi_customer[row.id] = row;
+                        if (row.status == 0) {
+                            return 'Belum Diputuskan'
+                        } else if (row.status == 1) {
+                            return 'Disetujui'
+                        } else if (row.status == 2) {
+                            return 'Ditolak'
+                        }
+                        return row.status;
                     }
                 },
                 {
@@ -257,8 +216,8 @@
                         let tampilan;
                         tampilan = `
                                 <div class="ms-auto">
-                                    <a class="btn btn-link text-dark text-gradient px-3 mb-0 edit_pengguna" id-pengguna = "${row.id}" href="#!" ><i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>Ubah</a>
-                                    <a class="btn btn-link text-danger text-gradient px-3 mb-0 hapus_pengguna" id-pengguna = "${row.id}" href="#!"><i class="far fa-trash-alt me-2"></i>Hapus</a>
+                                    <a class="btn btn-link text-dark text-gradient px-3 mb-0 edit_kunjungi_customer" id-kunjungi-customer = "${row.id}" href="#!" ><i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>Ubah</a>
+                                    <a class="btn btn-link text-danger text-gradient px-3 mb-0 hapus_kunjungi_customer" id-kunjungi-customer = "${row.id}" href="#!"><i class="far fa-trash-alt me-2"></i>Hapus</a>
                                 </div>
                                 `
                         return tampilan;
@@ -267,7 +226,7 @@
             ]
         });
 
-        $('#formTambahPengguna').on('submit', function(e) {
+        $('#formTambahKunjungiCustomer').on('submit', function(e) {
             e.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
@@ -293,10 +252,10 @@
                                 buttons: true,
                                 successMode: true,
                             }),
-                            table_data_pengguna.ajax.reload(null, false)
+                            table_data_kunjungi_customer.ajax.reload(null, false)
 
-                        $("#formTambahPengguna")[0].reset();
-                        $("#modalTambahPengguna").modal('hide')
+                        $("#formTambahKunjungiCustomer")[0].reset();
+                        $("#modalTambahCustomer").modal('hide')
                     }
                 }
             });
@@ -304,28 +263,27 @@
 
         $('.batal').on('click', function() {
             $(document).find('label.error-text').text('');
-            $("#role").empty().append('');
+            $("#customer").empty().append('');
         })
 
-        let role = @json($role);
+        let customer_retail = @json($customer_retail);
 
-        $(document).on('click', '.edit_pengguna', function(event) {
-            const id = $(event.currentTarget).attr('id-pengguna');
-            const data_pengguna = daftar_data_pengguna[id]
-            $("#modalEditPengguna").modal('show');
-            $("#formEditPengguna [name='id']").val(id)
-            $("#formEditPengguna [name='nama']").val(data_pengguna.nama);
-            $("#formEditPengguna [name='email']").val(data_pengguna.email);
-            $("#formEditPengguna [name='password']").val(data_pengguna.password);
+        $(document).on('click', '.edit_kunjungi_customer', function(event) {
+            const id = $(event.currentTarget).attr('id-kunjungi-customer');
+            const data_kunjungi_customer = daftar_data_kunjungi_customer[id]
+            $("#modalEditKunjungiCustomer").modal('show');
+            $("#formEditKunjungiCustomer [name='id']").val(id)
+            $("#formEditKunjungiCustomer [name='customer_id']").val(data_kunjungi_customer.customer_id);
+            $("#formEditKunjungiCustomer [name='tanggal']").val(data_kunjungi_customer.tanggal);
 
-            $.each(role, function(key, value) {
-                $('#role')
+            $.each(customer_retail, function(key, value) {
+                $('#customer')
                     .append(
-                        `<option value="${value.id}" ${value.id == data_pengguna.role_id ? 'selected' : ''}>${value.role}</option>`
+                        `<option value="${value.id}" ${value.id == data_kunjungi_customer.customer_id ? 'selected' : ''}>${value.nama}</option>`
                     )
             });
 
-            $('#formEditPengguna').on('submit', function(e) {
+            $('#formEditKunjungiCustomer').on('submit', function(e) {
                 e.preventDefault();
                 $.ajax({
                     url: $(this).attr('action'),
@@ -344,15 +302,15 @@
                                 // $('span.'+prefix+'_error').text(val[0]);
                             });
                         } else if (data.status == 1) {
-                            $("#role").empty().append('');
-                            $("#modalEditPengguna").modal('hide');
+                            $("#customer").empty().append('');
+                            $("#modalEditKunjungiCustomer").modal('hide');
                             swal({
                                     title: "Berhasil",
                                     text: `${data.msg}`,
                                     icon: "success",
                                     successMode: true,
                                 }),
-                                table_data_pengguna.ajax.reload(null, false);
+                                table_data_kunjungi_customer.ajax.reload(null, false);
                         }
                     }
                 });
@@ -392,8 +350,8 @@
         }
 
 
-        $(document).on('click', '.hapus_pengguna', function(event) {
-            const id = $(event.currentTarget).attr('id-pengguna');
+        $(document).on('click', '.hapus_kunjungi_customer', function(event) {
+            const id = $(event.currentTarget).attr('id-kunjungi-customer');
 
             swal({
                 title: "Yakin ?",
@@ -405,7 +363,7 @@
 
                 if (willDelete) {
                     $.ajax({
-                        url: "/admin/hapus-data-pengguna/" + id,
+                        url: "/admin/hapus-data-kunjungi-customer/" + id,
                         dataType: 'json',
                         success: function(response) {
                             if (response.status == 0) {
@@ -417,7 +375,7 @@
                                         icon: "success",
                                         successMode: true,
                                     }),
-                                    table_data_pengguna.ajax.reload()
+                                    table_data_kunjungi_customer.ajax.reload()
                             }
                         }
                     });

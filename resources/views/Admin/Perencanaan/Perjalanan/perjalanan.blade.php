@@ -1,10 +1,10 @@
-@extends('Layout.master', ['title' => 'Data Area'])
+@extends('Layout.master', ['title' => 'Data Perjalanan'])
 @section('nav')
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
-            <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="javascript:;">Data Area/</a></li>
+            <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="javascript:;">Data Perjalanan/</a></li>
         </ol>
-        <h6 class="font-weight-bolder mb-0">Data Area</h6>
+        <h6 class="font-weight-bolder mb-0">Data Perjalanan</h6>
     </nav>
 @endsection
 @section('konten')
@@ -17,11 +17,11 @@
                             <div class="buttons">
                                 <a id="tombol-tambah-area"
                                     class="btn btn-sm btn-primary rounded-pill text-white fw-semibold tambah_isi_elemen"
-                                    href="#" data-bs-toggle="modal" data-bs-target="#modalTambahArea"><i
+                                    href="#" data-bs-toggle="modal" data-bs-target="#modalTambahPerjalanan"><i
                                         class="fa fa-plus fa-xs"></i> Tambah Area
                                 </a>
                             </div>
-                            <div class="modal fade text-left" id="modalTambahArea" data-bs-backdrop="static"
+                            <div class="modal fade text-left" id="modalTambahPerjalanan" data-bs-backdrop="static"
                                 data-bs-keyboard="false" aria-labelledby="myModalLabel33" aria-hidden="true">>
                                 <div class="modal-dialog modal-dialog-centered">
                                     <div class="modal-content">
@@ -32,54 +32,24 @@
                                                 <i data-feather="x"></i>
                                             </button>
                                         </div>
-                                        <form action="{{ route('admin.TambahDataArea') }}" id="formTambahArea"
+                                        <form action="{{ route('admin.TambahDataPerjalanan') }}" id="formTambahPerjalanan"
                                             method="POST">
                                             @csrf
                                             <div class="modal-body">
                                                 <div class="row mb-3">
-                                                    <label class="col col-form-label" for="provinsi">Provinsi</label>
+                                                    <label class="col col-form-label" for="provinsi">Pilih Nama
+                                                        Sales</label>
                                                     <div class="col-md-9">
-                                                        @php
-                                                            $provinces = new App\Http\Controllers\Admin\WilayahIndonesiaController();
-                                                            $provinces = $provinces->provinsi();
-                                                        @endphp
-                                                        <select class="form-control" name="provinsi_id" id="provinsi"
+                                                        <select class="form-control" name="user_sales_id" id="user_sales_id"
                                                             required>
-                                                            <option>==Pilih Salah Satu==</option>
-                                                            @foreach ($provinces as $item)
-                                                                <option value="{{ $item->id ?? '' }}">
-                                                                    {{ $item->name ?? '' }}</option>
+                                                            <option>Pilih Sales</option>
+                                                            @foreach ($sales_retail as $data_sales_retail)
+                                                                <option value="{{ $data_sales_retail->id }}">
+                                                                    {{ $data_sales_retail->nama }}</option>
                                                             @endforeach
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <div class="row mb-3">
-                                                    <label class="col col-form-label" for="kota">Kabupaten /
-                                                        Kota</label>
-                                                    <div class="col-md-9">
-                                                        <select class="form-control" name="kota_id" id="kota" required>
-                                                            <option>==Pilih Salah Satu==</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="row mb-3">
-                                                    <label class="col col-form-label" for="kecamatan">Kecamatan</label>
-                                                    <div class="col-md-9">
-                                                        <select class="form-control" name="kecamatan_id" id="kecamatan"
-                                                            required>
-                                                            <option>==Pilih Salah Satu==</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="row mb-3">
-                                                    <label class="col col-form-label" for="desa">Desa</label>
-                                                    <div class="col-md-9">
-                                                        <select class="form-control" name="desa_id" id="desa" required>
-                                                            <option>==Pilih Salah Satu==</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-
                                             </div>
 
                                             <div class="modal-footer">
@@ -95,15 +65,15 @@
                                     </div>
                                 </div>
                             </div>
-                            <table class="table table-striped" id="table-data-area">
+                            <table class="table table-striped" id="table-data-perjalanan">
                                 <thead>
                                     <tr>
                                         <th>No.</th>
                                         <th>Kode</th>
-                                        <th>Provinsi</th>
-                                        <th>Kabupaten/Kota</th>
-                                        <th>Kecamatan</th>
-                                        <th>Desa</th>
+                                        <th>Nama Sales</th>
+                                        <th>KM Awal</th>
+                                        <th>KM Akhir</th>
+                                        <th>Plat Kendaraan</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
@@ -117,40 +87,8 @@
 @endsection
 @section('script')
     <script>
-        function onChangeSelect(url, id, name) {
-            // send ajax request to get the cities of the selected province and append to the select tag
-            $.ajax({
-                url: url,
-                type: 'GET',
-                data: {
-                    id: id
-                },
-                success: function(data) {
-                    $('#' + name).empty();
-                    $('#' + name).append('<option>==Pilih Salah Satu==</option>');
-
-                    $.each(data, function(key, value) {
-                        $('#' + name).append('<option value="' + key + '">' + value + '</option>');
-                    });
-                }
-            });
-        }
-        $(function() {
-            $('#provinsi').on('change', function() {
-                onChangeSelect('{{ route('admin.Kota') }}', $(this).val(), 'kota');
-            });
-            $('#kota').on('change', function() {
-                onChangeSelect('{{ route('admin.Kecamatan') }}', $(this).val(), 'kecamatan');
-            })
-            $('#kecamatan').on('change', function() {
-                onChangeSelect('{{ route('admin.Desa') }}', $(this).val(), 'desa');
-            })
-        });
-
-
-
-        let daftar_data_area = [];
-        const table_data_area = $('#table-data-area').DataTable({
+        let daftar_data_perjalanan = [];
+        const table_data_perjalanan = $('#table-data-perjalanan').DataTable({
             "destroy": true,
             "pageLength": 10,
             "lengthMenu": [
@@ -166,7 +104,7 @@
             "sScrollX": '100%',
             "sScrollXInner": "100%",
             ajax: {
-                url: "{{ route('admin.DataArea') }}",
+                url: "{{ route('admin.DataPerjalanan') }}",
                 type: "POST",
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -186,7 +124,7 @@
                     "class": "text-nowrap text-center",
                     "render": function(data, type, row, meta) {
                         let i = 1;
-                        daftar_data_area[row.id] = row;
+                        daftar_data_perjalanan[row.id] = row;
                         return meta.row + 1;
                     }
                 },
@@ -194,7 +132,7 @@
                     "targets": 1,
                     "class": "text-wrap text-center",
                     "render": function(data, type, row, meta) {
-                        daftar_data_area[row.id] = row;
+                        daftar_data_perjalanan[row.id] = row;
                         return row.kode;
                     }
                 },
@@ -202,32 +140,44 @@
                     "targets": 2,
                     "class": "text-wrap text-center",
                     "render": function(data, type, row, meta) {
-                        daftar_data_area[row.id] = row;
-                        return row.relasi_provinsi.name;
+                        daftar_data_perjalanan[row.id] = row;
+                        return row.relasi_sales.nama;
                     }
                 },
                 {
                     "targets": 3,
                     "class": "text-wrap text-center",
                     "render": function(data, type, row, meta) {
-                        daftar_data_area[row.id] = row;
-                        return row.relasi_kota.name;
+                        daftar_data_perjalanan[row.id] = row;
+                        if (row.km_awal == null) {
+                            return `<p>belum ditentukan`
+                        } else {
+                            return row.km_awal.plat;
+                        }
                     }
                 },
                 {
                     "targets": 4,
                     "class": "text-wrap text-center",
                     "render": function(data, type, row, meta) {
-                        daftar_data_area[row.id] = row;
-                        return row.relasi_kecamatan.name;
+                        daftar_data_perjalanan[row.id] = row;
+                        if (row.km_akhir == null) {
+                            return `<p>belum ditentukan`
+                        } else {
+                            return row.km_akhir.plat;
+                        }
                     }
                 },
                 {
                     "targets": 5,
                     "class": "text-wrap text-center",
                     "render": function(data, type, row, meta) {
-                        daftar_data_area[row.id] = row;
-                        return row.relasi_desa.name;
+                        daftar_data_perjalanan[row.id] = row;
+                        if (row.relasi_kendaraan == null) {
+                            return `<p>belum ditentukan`
+                        } else {
+                            return row.relasi_kendaraan.plat;
+                        }
                     }
                 },
                 {
@@ -238,17 +188,18 @@
                         tampilan = `
                             <div class="ms-auto">
                                 <a class="btn btn-link text-warning text-gradient px-3 mb-0" href="/admin/ubah-data-area/${row.kode}"><i class="fa fa-pen me-2"></i>Ubah</a>
-                                <a class="btn btn-link text-danger text-gradient px-3 mb-0 hapus_area" id-area = "${row.id}" href="#!"><i class="fa fa-trash-alt me-2"></i>Hapus</a>
+                                <a class="btn btn-link text-danger text-gradient px-3 mb-0 hapus_data_perjalanan" id-perjalanan = "${row.id}" href="#!"><i class="fa fa-trash-alt me-2"></i>Hapus</a>
+                                <a class="btn btn-link text-success text-gradient px-3 mb-0" href="/admin/halaman-kunjungi-customer/${row.kode}"><i class="fa fa-eye me-2"></i>Daftar Customer</a>
                                 </div>
                                 `
-                        // <a class="btn btn-link text-dark text-gradient px-3 mb-0 edit_area" id-area = "${row.id}" href="#!" ><i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>Ubah</a>
+                        // <a class="btn btn-link text-dark text-gradient px-3 mb-0 edit_area" id-perjalanan = "${row.id}" href="#!" ><i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>Ubah</a>
                         return tampilan;
                     }
                 },
             ]
         });
 
-        $('#formTambahArea').on('submit', function(e) {
+        $('#formTambahPerjalanan').on('submit', function(e) {
             e.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
@@ -274,10 +225,10 @@
                                 buttons: true,
                                 successMode: true,
                             }),
-                            table_data_area.ajax.reload(null, false)
+                            table_data_perjalanan.ajax.reload(null, false)
 
-                        $("#formTambahArea")[0].reset();
-                        $("#modalTambahArea").modal('hide')
+                        $("#formTambahPerjalanan")[0].reset();
+                        $("#modalTambahPerjalanan").modal('hide')
                     }
                 }
             });
@@ -289,8 +240,8 @@
         // })
 
 
-        $(document).on('click', '.hapus_area', function(event) {
-            const id = $(event.currentTarget).attr('id-area');
+        $(document).on('click', '.hapus_data_perjalanan', function(event) {
+            const id = $(event.currentTarget).attr('id-perjalanan');
 
             swal({
                 title: "Yakin ?",
@@ -302,7 +253,7 @@
 
                 if (willDelete) {
                     $.ajax({
-                        url: "/admin/hapus-data-area/" + id,
+                        url: "/admin/hapus-data-perjalanan/" + id,
                         dataType: 'json',
                         success: function(response) {
                             if (response.status == 0) {
@@ -314,7 +265,7 @@
                                         icon: "success",
                                         successMode: true,
                                     }),
-                                    table_data_area.ajax.reload()
+                                    table_data_perjalanan.ajax.reload()
                             }
                         }
                     });

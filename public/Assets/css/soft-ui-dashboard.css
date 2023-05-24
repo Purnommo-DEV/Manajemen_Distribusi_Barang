@@ -26574,7 +26574,7 @@ pre[class*="language-"] {
  * Container style
  */
 .ps {
-  overflow: hidden !important;
+  overflow: visible !important;
   overflow-anchor: none;
   -ms-overflow-style: none;
   touch-action: auto;

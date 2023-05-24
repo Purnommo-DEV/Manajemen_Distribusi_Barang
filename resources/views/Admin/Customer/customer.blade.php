@@ -165,6 +165,45 @@
             </div>
         </div>
     </div>
+
+    {{-- MODAL BARCODE --}}
+    <div class="modal fade text-left" id="modalTampilBarcode" data-bs-backdrop="static" data-bs-keyboard="false"
+        aria-labelledby="myModalLabel33" aria-hidden="true">>
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabel33">Barcode Customer</h4>
+                    <button type="button" class="close batal" data-bs-dismiss="modal" aria-label="Close">
+                        <i data-feather="x"></i>
+                    </button>
+                </div>
+                <form id="formTampilBarcode" action="#">
+                    <input type="hidden" name="id" hidden>
+                    @csrf
+                    <div class="modal-body">
+                        <div class="form-group">
+                            {{-- <img src="" alt=""> --}}
+                            <div id="barcode"></div>
+                            {{-- <input type="text" id="barcode" name="barcode" placeholder="Nama"
+                                class="form-control rounded-5"> --}}
+                            <div class="input-group has-validation">
+                                <label class="text-danger error-text nama_error"></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-light-secondary batal rounded-pill"
+                            data-bs-dismiss="modal">
+                            Batal
+                        </button>
+                        <button type="submit" class="btn btn-primary ml-1 rounded-pill">
+                            Simpan
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 @endsection
 @section('script')
     <script>
@@ -261,9 +300,9 @@
                     "render": function(data, type, row, meta) {
                         daftar_data_customer[row.id] = row;
                         return `<div class="ms-auto">
-                                    <a class="btn btn-link text-danger text-gradient px-3 mb-0" href="/admin/print-barcode-customer/${row.kode}"><i class="fa fa-print me-2"></i> Print</a>
-                                </div>
-                                `
+                            <a class="btn btn-link text-danger text-gradient px-3 mb-0" href="/admin/print-barcode-customer/${row.kode}"><i class="fa fa-print me-2"></i> Print</a>
+                            </div>
+                           `
                     }
                 },
                 {
@@ -317,6 +356,20 @@
                 }
             });
         });
+
+        // $(document).on('click', '.tampil_barcode', function(event) {
+        //     const id = $(event.currentTarget).attr('id-barcode');
+
+        //     const data_customer = daftar_data_customer[id]
+
+        //     $("#modalTampilBarcode").modal('show');
+        //     $('#barcode').html(`<div class="row">
+    //         <div class="col-md-4">
+    //         <img src="${data_customer.barcode}" style="height:500px;width:465px;margin-bottom:10px;top:0;right:0;"/>
+    //         </div>
+    //     </div>`);
+        // });
+
 
         $(document).on('click', '.edit_data_customer', function(event) {
             const id = $(event.currentTarget).attr('id-data-customer');

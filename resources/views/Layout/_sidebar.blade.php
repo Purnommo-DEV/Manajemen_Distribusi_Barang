@@ -117,6 +117,46 @@
                         <span class="nav-link-text ms-1">Kendaraan</span>
                     </a>
                 </li>
+
+                <li class="nav-item">
+                    <a data-bs-toggle="collapse" href="#basicExamples"
+                        class="nav-link
+                    {{ request()->routeIs('admin.HalamanPerjalanan*') ? 'active' : '' }}
+                    {{ request()->routeIs('admin.HalamanPenagihanHutang*') ? 'active' : '' }}"
+                        aria-controls="basicExamples" role="button" aria-expanded="true">
+                        <div
+                            class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                            <i
+                                class="fas fa-route
+                                @if (request()->routeIs('admin.HalamanPerjalanan*')) {{ request()->routeIs('admin.HalamanPerjalanan*') ? 'warna-white' : 'warna-black' }}
+                                @elseif(request()->routeIs('admin.HalamanPenagihanHutang*'))
+                                    {{ request()->routeIs('admin.HalamanPenagihanHutang*') ? 'warna-white' : 'warna-black' }}
+                                @else
+                                    warna-black @endif
+                                ">
+                            </i>
+                        </div>
+                        <span class="nav-link-text ms-1">Perjalanan</span>
+                    </a>
+                    <div class="collapse" id="basicExamples">
+                        <ul class="nav ms-4 ps-3">
+                            <li class="nav-item {{ request()->routeIs('admin.HalamanPerjalanan*') ? 'active' : '' }}">
+                                <a class="nav-link" href="{{ route('admin.HalamanPerjalanan') }}">Daftar Perjalanan
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="collapse" id="basicExamples">
+                        <ul class="nav ms-4 ps-3">
+                            <li
+                                class="nav-item {{ request()->routeIs('admin.HalamanPenagihanHutang*') ? 'active' : '' }}">
+                                <a class="nav-link" href="#foundationExample">Daftar Hutang Customer
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+
                 {{-- <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('admin.Laporan*') ? 'active' : '' }} "
                         href="{{ route('admin.Laporan') }}">
@@ -129,8 +169,6 @@
                         <span class="nav-link-text ms-1">Laporan</span>
                     </a>
                 </li> --}}
-
-
 
 
 
