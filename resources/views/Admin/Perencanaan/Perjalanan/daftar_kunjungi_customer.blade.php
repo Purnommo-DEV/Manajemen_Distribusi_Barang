@@ -47,11 +47,37 @@
                                                         <label class="text-danger error-text customer_id_error"></label>
                                                     </div>
                                                 </div>
-                                                <label>Tanggal</label>
+                                                <label>Hari</label>
                                                 <div class="form-group">
-                                                    <input type="datetime-local" name="tanggal" class="form-control">
+                                                    <select name="hari" class="form-control">
+                                                        <option value="" disabled selected>Pilih Hari</option>
+                                                        <option value="senin">Senin</option>
+                                                        <option value="selasa">Selasa</option>
+                                                        <option value="rabu">Rabu</option>
+                                                        <option value="kamis">Kamis</option>
+                                                        <option value="jumat">Jum'at</option>
+                                                        <option value="sabtu">Sabtu</option>
+                                                        <option value="minggu">Minggu</option>
+                                                    </select>
                                                     <div class="input-group has-validation">
-                                                        <label class="text-danger error-text tanggal_error"></label>
+                                                        <label class="text-danger error-text hari_error"></label>
+                                                    </div>
+                                                </div>
+                                                <label>Minggu Ke-</label>
+                                                <div class="form-group">
+                                                    <input type="number" class="form-control" name="minggu_ke"
+                                                        min="1" oninput="this.value = Math.abs(this.value)">
+                                                </div>
+                                                <label>Ganjil/Genap</label>
+                                                <div class="form-group">
+                                                    <select name="ganjil_genap" class="form-control">
+                                                        <option value="" disabled selected>Pilih Ganjil / Genap
+                                                        </option>
+                                                        <option value="ganjil">Ganjil</option>
+                                                        <option value="genap">Genap</option>
+                                                    </select>
+                                                    <div class="input-group has-validation">
+                                                        <label class="text-danger error-text ganjil_genap_error"></label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -74,8 +100,9 @@
                                     <tr>
                                         <th>No.</th>
                                         <th>Nama Customer</th>
-                                        <th>Tanggal</th>
-                                        <th>Status</th>
+                                        <th>Hari</th>
+                                        <th>Minggu Ke-</th>
+                                        <th>Ganjil/Genap</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
@@ -106,23 +133,40 @@
                         <label>Customer</label>
                         <div class="form-group">
                             <select class="form-control" name="customer_id" id="customer">
-                                <option value="" selected disabled>-- Pilih Customer --
+                                <option value="" disabled>-- Pilih Customer --
                                 </option>
                             </select>
                             <div class="input-group has-validation">
                                 <label class="text-danger error-text customer_id_error"></label>
                             </div>
                         </div>
-                        <label>Tanggal</label>
+                        <label>Hari</label>
                         <div class="form-group">
-                            <input type="datetime-local" name="tanggal" class="form-control">
+                            <select name="hari" class="form-control" id="pilih-hari">
+                                <option value="" disabled>Pilih Hari</option>
+                            </select>
                             <div class="input-group has-validation">
-                                <label class="text-danger error-text tanggal_error"></label>
+                                <label class="text-danger error-text hari_error"></label>
+                            </div>
+                        </div>
+                        <label>Minggu Ke-</label>
+                        <div class="form-group">
+                            <input type="number" class="form-control" name="minggu_ke" min="1"
+                                oninput="this.value = Math.abs(this.value)">
+                        </div>
+                        <label>Ganjil/Genap</label>
+                        <div class="form-group">
+                            <select name="ganjil_genap" class="form-control" id="pilih-ganjil-genap">
+
+                            </select>
+                            <div class="input-group has-validation">
+                                <label class="text-danger error-text ganjil_genap_error"></label>
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-light-secondary batal rounded-pill" data-bs-dismiss="modal">
+                        <button type="button" class="btn btn-light-secondary batal rounded-pill"
+                            data-bs-dismiss="modal">
                             Batal
                         </button>
                         <button type="submit" class="btn btn-primary ml-1 rounded-pill">
@@ -191,7 +235,7 @@
                     "class": "text-wrap text-center",
                     "render": function(data, type, row, meta) {
                         daftar_data_kunjungi_customer[row.id] = row;
-                        return moment(row.tanggal).format('dddd, DD-MMMM-YYYY, h:mm:ss');
+                        return row.hari;
                     }
                 },
                 {
@@ -199,18 +243,19 @@
                     "class": "text-wrap text-center",
                     "render": function(data, type, row, meta) {
                         daftar_data_kunjungi_customer[row.id] = row;
-                        if (row.status == 0) {
-                            return 'Belum Diputuskan'
-                        } else if (row.status == 1) {
-                            return 'Disetujui'
-                        } else if (row.status == 2) {
-                            return 'Ditolak'
-                        }
-                        return row.status;
+                        return row.minggu_ke;
                     }
                 },
                 {
                     "targets": 4,
+                    "class": "text-wrap text-center",
+                    "render": function(data, type, row, meta) {
+                        daftar_data_kunjungi_customer[row.id] = row;
+                        return row.ganjil_genap;
+                    }
+                },
+                {
+                    "targets": 5,
                     "class": "text-nowrap text-center",
                     "render": function(data, type, row, meta) {
                         let tampilan;
@@ -263,6 +308,8 @@
 
         $('.batal').on('click', function() {
             $(document).find('label.error-text').text('');
+            $("#pilih-hari").empty().append('');
+            $("#pilih-ganjil-genap").empty().append('');
             $("#customer").empty().append('');
         })
 
@@ -274,7 +321,8 @@
             $("#modalEditKunjungiCustomer").modal('show');
             $("#formEditKunjungiCustomer [name='id']").val(id)
             $("#formEditKunjungiCustomer [name='customer_id']").val(data_kunjungi_customer.customer_id);
-            $("#formEditKunjungiCustomer [name='tanggal']").val(data_kunjungi_customer.tanggal);
+            $("#formEditKunjungiCustomer [name='minggu_ke']").val(data_kunjungi_customer.minggu_ke);
+            $("#formEditKunjungiCustomer [name='ganjil_genap']").val(data_kunjungi_customer.ganjil_genap);
 
             $.each(customer_retail, function(key, value) {
                 $('#customer')
@@ -282,6 +330,29 @@
                         `<option value="${value.id}" ${value.id == data_kunjungi_customer.customer_id ? 'selected' : ''}>${value.nama}</option>`
                     )
             });
+
+            $("#formEditKunjungiCustomer [name='hari']").append(
+                $(
+                    `
+                <option value='' disabled selected>-- Pilih Hari -- </option>
+                <option value='senin' ${'senin' === data_kunjungi_customer.hari ? 'selected' : ''}>Senin</option>
+                <option value='selasa' ${'selasa' === data_kunjungi_customer.hari ? 'selected' : ''}>Selasa</option>
+                <option value='rabu' ${'rabu' === data_kunjungi_customer.hari ? 'selected' : ''}>Rabu</option>
+                <option value='kamis' ${'kamis' === data_kunjungi_customer.hari ? 'selected' : ''}>Kamis</option>
+                <option value='jumat' ${'jumat' === data_kunjungi_customer.hari ? 'selected' : ''}>Jum'at</option>
+                <option value='sabtu' ${'sabtu' === data_kunjungi_customer.hari ? 'selected' : ''}>Sabtu</option>
+                <option value='minggu' ${'minggu' === data_kunjungi_customer.hari ? 'selected' : ''}>Minggu</option>
+                `
+                ))
+
+            $("#formEditKunjungiCustomer [name='ganjil_genap']").append(
+                $(
+                    `
+                <option value='' disabled selected>-- Pilih Ganjil / Genap --</option>
+                <option value='ganjil' ${'ganjil' === data_kunjungi_customer.ganjil_genap ? 'selected' : ''}>Ganjil</option>
+                <option value='genap' ${'genap' === data_kunjungi_customer.ganjil_genap ? 'selected' : ''}>Genap</option>
+                `
+                ))
 
             $('#formEditKunjungiCustomer').on('submit', function(e) {
                 e.preventDefault();
@@ -303,11 +374,13 @@
                             });
                         } else if (data.status == 1) {
                             $("#customer").empty().append('');
+                            $("#pilih-hari").empty().append('');
+                            $("#pilih-ganjil-genap").empty().append('');
                             $("#modalEditKunjungiCustomer").modal('hide');
                             swal({
                                     title: "Berhasil",
                                     text: `${data.msg}`,
-                                    icon: "success",
+                                    icon: "/icon/sukses.png",
                                     successMode: true,
                                 }),
                                 table_data_kunjungi_customer.ajax.reload(null, false);

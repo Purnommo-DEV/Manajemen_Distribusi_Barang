@@ -43,21 +43,36 @@ class Admin_ProdukController extends Controller
 
     public function tambah_data_produk(Request $request)
     {
-        $harga = str_replace(['Rp. ', '.', '.'], ['', '', ''], $request->harga);
+        $harga_beli = str_replace(['Rp. ', '.', '.'], ['', '', ''], $request->harga_beli);
+        $harga_jual = str_replace(['Rp. ', '.', '.'], ['', '', ''], $request->harga_jual);
+        $harga_retail = str_replace(['Rp. ', '.', '.'], ['', '', ''], $request->harga_retail);
+        $harga_wholesale = str_replace(['Rp. ', '.', '.'], ['', '', ''], $request->harga_wholesale);
 
         $validator = Validator::make($request->all(), [
             'kode' => 'required',
             'nama_produk' => 'required',
-            'harga' => 'required|min:0',
-            'stok' => 'required|numeric|min:0',
+            'harga_beli' => 'required|min:0',
+            'harga_jual' => 'required|min:0',
+            'harga_retail' => 'required|min:0',
+            'harga_wholesale' => 'required|min:0',
+            'satuan' => 'required',
         ], [
             'kode.required' => 'Wajib diisi',
             'nama_produk.required' => 'Wajib diisi',
-            'harga.required' => 'Wajib diisi',
-            'harga.min' => 'Inputan harga minimal 0',
-            'stok.numeric' => 'Wajib diisi dengan angka',
-            'stok.min' => 'Inputan stok minimal 0',
-            'stok.required' => 'Wajib diisi',
+
+            'harga_beli.required' => 'Wajib diisi',
+            'harga_beli.min' => 'Inputan harga_beli minimal 0',
+
+            'harga_jual.required' => 'Wajib diisi',
+            'harga_jual.min' => 'Inputan harga jual minimal 0',
+
+            'harga_retail.required' => 'Wajib diisi',
+            'harga_retail.min' => 'Inputan harga retail minimal 0',
+
+            'harga_wholesale.required' => 'Wajib diisi',
+            'harga_wholesale.min' => 'Inputan harga wholesale minimal 0',
+
+            'satuan.required' => 'Wajib diisi'
         ]);
 
         if (!$validator->passes()) {
@@ -69,19 +84,22 @@ class Admin_ProdukController extends Controller
             $tambah_produk = Produk::create([
                 'kode' => $request->kode,
                 'nama_produk' => $request->nama_produk,
-                'harga' => $harga,
-                'stok' => $request->stok,
+                'harga_beli' => $harga_beli,
+                'harga_jual' => $harga_jual,
+                'harga_retail' => $harga_retail,
+                'harga_wholesale' => $harga_wholesale,
+                'satuan' => $request->satuan,
             ]);
 
             if (!$tambah_produk) {
                 return response()->json([
                     'status' => 0,
-                    'msg' => 'Terjadi kesalahan, Gagal Menambah Pengguna'
+                    'msg' => 'Terjadi kesalahan, Gagal Menambah Produk'
                 ]);
             } else {
                 return response()->json([
                     'status' => 1,
-                    'msg' => 'Berhasil Menambahkan Pengguna'
+                    'msg' => 'Berhasil Menambahkan Produk'
                 ]);
             }
         }
@@ -89,21 +107,36 @@ class Admin_ProdukController extends Controller
 
     public function ubah_data_produk(Request $request)
     {
-        $harga = str_replace(['Rp. ', '.', '.'], ['', '', ''], $request->harga);
+        $harga_beli = str_replace(['Rp. ', '.', '.'], ['', '', ''], $request->harga_beli);
+        $harga_jual = str_replace(['Rp. ', '.', '.'], ['', '', ''], $request->harga_jual);
+        $harga_retail = str_replace(['Rp. ', '.', '.'], ['', '', ''], $request->harga_retail);
+        $harga_wholesale = str_replace(['Rp. ', '.', '.'], ['', '', ''], $request->harga_wholesale);
 
         $validator = Validator::make($request->all(), [
             'kode' => 'required',
             'nama_produk' => 'required',
-            'harga' => 'required|min:0',
-            'stok' => 'required|numeric|min:0',
+            'harga_beli' => 'required|min:0',
+            'harga_jual' => 'required|min:0',
+            'harga_retail' => 'required|min:0',
+            'harga_wholesale' => 'required|min:0',
+            'satuan' => 'required',
         ], [
             'kode.required' => 'Wajib diisi',
             'nama_produk.required' => 'Wajib diisi',
-            'harga.required' => 'Wajib diisi',
-            'harga.min' => 'Inputan harga minimal 0',
-            'stok.numeric' => 'Wajib diisi dengan angka',
-            'stok.min' => 'Inputan stok minimal 0',
-            'stok.required' => 'Wajib diisi',
+
+            'harga_beli.required' => 'Wajib diisi',
+            'harga_beli.min' => 'Inputan harga_beli minimal 0',
+
+            'harga_jual.required' => 'Wajib diisi',
+            'harga_jual.min' => 'Inputan harga jual minimal 0',
+
+            'harga_retail.required' => 'Wajib diisi',
+            'harga_retail.min' => 'Inputan harga retail minimal 0',
+
+            'harga_wholesale.required' => 'Wajib diisi',
+            'harga_wholesale.min' => 'Inputan harga wholesale minimal 0',
+
+            'satuan.required' => 'Wajib diisi'
         ]);
 
         if (!$validator->passes()) {
@@ -115,8 +148,11 @@ class Admin_ProdukController extends Controller
             $ubah_produk = Produk::where('id', $request->id)->update([
                 'kode' => $request->kode,
                 'nama_produk' => $request->nama_produk,
-                'harga' => $harga,
-                'stok' => $request->stok,
+                'harga_beli' => $harga_beli,
+                'harga_jual' => $harga_jual,
+                'harga_retail' => $harga_retail,
+                'harga_wholesale' => $harga_wholesale,
+                'satuan' => $request->satuan,
             ]);
 
             if (!$ubah_produk) {

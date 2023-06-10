@@ -52,20 +52,44 @@
                                                         <label class="text-danger error-text nama_produk_error"></label>
                                                     </div>
                                                 </div>
-                                                <label>Harga</label>
+                                                <label>Harga Beli</label>
                                                 <div class="form-group">
-                                                    <input type="text" id="harga" name="harga"
-                                                        placeholder="Harga Produk" class="form-control rounded-5">
+                                                    <input type="text" id="harga_beli" name="harga_beli"
+                                                        placeholder="Harga Beli" class="form-control rounded-5">
                                                     <div class="input-group has-validation">
-                                                        <label class="text-danger error-text harga_error"></label>
+                                                        <label class="text-danger error-text harga_beli_error"></label>
                                                     </div>
                                                 </div>
-                                                <label>Stok</label>
+                                                <label>Harga Jual</label>
                                                 <div class="form-group">
-                                                    <input type="text" name="stok" placeholder="Stok Produk"
+                                                    <input type="text" id="harga_jual" name="harga_jual"
+                                                        placeholder="Harga Jual" class="form-control rounded-5">
+                                                    <div class="input-group has-validation">
+                                                        <label class="text-danger error-text harga_jual_error"></label>
+                                                    </div>
+                                                </div>
+                                                <label>Satuan</label>
+                                                <div class="form-group">
+                                                    <input type="text" id="satuan" name="satuan" placeholder="Satuan"
                                                         class="form-control rounded-5">
                                                     <div class="input-group has-validation">
-                                                        <label class="text-danger error-text stok_error"></label>
+                                                        <label class="text-danger error-text satuan_error"></label>
+                                                    </div>
+                                                </div>
+                                                <label>Harga Retail</label>
+                                                <div class="form-group">
+                                                    <input type="text" id="harga_retail" name="harga_retail"
+                                                        placeholder="Harga Retail" class="form-control rounded-5">
+                                                    <div class="input-group has-validation">
+                                                        <label class="text-danger error-text harga_retail_error"></label>
+                                                    </div>
+                                                </div>
+                                                <label>Harga Wholesale</label>
+                                                <div class="form-group">
+                                                    <input type="text" id="harga_wholesale" name="harga_wholesale"
+                                                        placeholder="Wholesale" class="form-control rounded-5">
+                                                    <div class="input-group has-validation">
+                                                        <label class="text-danger error-text harga_wholesale_error"></label>
                                                     </div>
                                                 </div>
                                             </div>
@@ -88,7 +112,11 @@
                                         <th>No.</th>
                                         <th>Kode Produk</th>
                                         <th>Nama Produk</th>
-                                        <th>Harga</th>
+                                        <th>Harga Beli</th>
+                                        <th>Harga Jual</th>
+                                        <th>Satuan</th>
+                                        <th>Harga Retail</th>
+                                        <th>Harga Wholesale</th>
                                         <th>Stok</th>
                                         <th>Aksi</th>
                                     </tr>
@@ -133,20 +161,44 @@
                                 <label class="text-danger error-text nama_produk_error"></label>
                             </div>
                         </div>
-                        <label>Harga</label>
+                        <label>Harga Beli</label>
                         <div class="form-group">
-                            <input type="text" id="hargaEdit" name="harga" placeholder="Harga Produk"
+                            <input type="text" id="harga_beli_edit" name="harga_beli" placeholder="Harga Beli"
                                 class="form-control rounded-5">
                             <div class="input-group has-validation">
-                                <label class="text-danger error-text harga_error"></label>
+                                <label class="text-danger error-text harga_beli_error"></label>
                             </div>
                         </div>
-                        <label>Stok</label>
+                        <label>Harga Jual</label>
                         <div class="form-group">
-                            <input type="text" name="stok" placeholder="Stok Produk"
+                            <input type="text" id="harga_jual_edit" name="harga_jual" placeholder="Harga Jual"
                                 class="form-control rounded-5">
                             <div class="input-group has-validation">
-                                <label class="text-danger error-text stok_error"></label>
+                                <label class="text-danger error-text harga_jual_error"></label>
+                            </div>
+                        </div>
+                        <label>Satuan</label>
+                        <div class="form-group">
+                            <input type="text" id="satuan" name="satuan" placeholder="Satuan"
+                                class="form-control rounded-5">
+                            <div class="input-group has-validation">
+                                <label class="text-danger error-text satuan_error"></label>
+                            </div>
+                        </div>
+                        <label>Harga Retail</label>
+                        <div class="form-group">
+                            <input type="text" id="harga_retail_edit" name="harga_retail" placeholder="Harga Retail"
+                                class="form-control rounded-5">
+                            <div class="input-group has-validation">
+                                <label class="text-danger error-text harga_retail_error"></label>
+                            </div>
+                        </div>
+                        <label>Harga Wholesale</label>
+                        <div class="form-group">
+                            <input type="text" id="harga_wholesale_edit" name="harga_wholesale"
+                                placeholder="Wholesale" class="form-control rounded-5">
+                            <div class="input-group has-validation">
+                                <label class="text-danger error-text harga_wholesale_error"></label>
                             </div>
                         </div>
                     </div>
@@ -229,7 +281,7 @@
                     "class": "text-wrap text-center",
                     "render": function(data, type, row, meta) {
                         daftar_data_produk[row.id] = row;
-                        return $.fn.dataTable.render.number('.', ',', 2, 'Rp ').display(row.harga);
+                        return $.fn.dataTable.render.number('.', ',', 2, 'Rp ').display(row.harga_beli);
                     }
                 },
                 {
@@ -237,11 +289,46 @@
                     "class": "text-wrap text-center",
                     "render": function(data, type, row, meta) {
                         daftar_data_produk[row.id] = row;
-                        return row.stok;
+                        return $.fn.dataTable.render.number('.', ',', 2, 'Rp ').display(row.harga_jual);
                     }
                 },
                 {
                     "targets": 5,
+                    "class": "text-wrap text-center",
+                    "render": function(data, type, row, meta) {
+                        daftar_data_produk[row.id] = row;
+                        return row.satuan;
+                    }
+                },
+                {
+                    "targets": 6,
+                    "class": "text-wrap text-center",
+                    "render": function(data, type, row, meta) {
+                        daftar_data_produk[row.id] = row;
+                        return $.fn.dataTable.render.number('.', ',', 2, 'Rp ').display(row.harga_retail);
+                    }
+                },
+
+                {
+                    "targets": 7,
+                    "class": "text-wrap text-center",
+                    "render": function(data, type, row, meta) {
+                        daftar_data_produk[row.id] = row;
+                        return $.fn.dataTable.render.number('.', ',', 2, 'Rp ').display(row
+                            .harga_wholesale);
+                    }
+                },
+
+                {
+                    "targets": 8,
+                    "class": "text-wrap text-center",
+                    "render": function(data, type, row, meta) {
+                        daftar_data_produk[row.id] = row;
+                        return row.stok;
+                    }
+                },
+                {
+                    "targets": 9,
                     "class": "text-nowrap text-center",
                     "render": function(data, type, row, meta) {
                         let tampilan;
@@ -258,9 +345,24 @@
         });
 
 
-        var hargaId = document.getElementById('harga');
-        hargaId.addEventListener('keyup', function(e) {
-            hargaId.value = formatRupiah(this.value, 'Rp. ');
+        var hargaBeliId = document.getElementById('harga_beli');
+        hargaBeliId.addEventListener('keyup', function(e) {
+            hargaBeliId.value = formatRupiah(this.value, 'Rp. ');
+        });
+
+        var hargaJualId = document.getElementById('harga_jual');
+        hargaJualId.addEventListener('keyup', function(e) {
+            hargaJualId.value = formatRupiah(this.value, 'Rp. ');
+        });
+
+        var hargaRetailId = document.getElementById('harga_retail');
+        hargaRetailId.addEventListener('keyup', function(e) {
+            hargaRetailId.value = formatRupiah(this.value, 'Rp. ');
+        });
+
+        var hargaWholesaleId = document.getElementById('harga_wholesale');
+        hargaWholesaleId.addEventListener('keyup', function(e) {
+            hargaWholesaleId.value = formatRupiah(this.value, 'Rp. ');
         });
 
         function formatRupiah(angka, prefix) {
@@ -313,17 +415,47 @@
             });
         });
 
-        var hargaEditId = document.getElementById('hargaEdit');
-        hargaEditId.addEventListener('keyup', function(e) {
-            hargaEditId.value = formatRupiah(this.value, 'Rp. ');
+        var hargaBeliEditId = document.getElementById('harga_beli_edit');
+        hargaBeliEditId.addEventListener('keyup', function(e) {
+            hargaBeliEditId.value = formatRupiah(this.value, 'Rp. ');
+        });
+
+        var hargaJualEditId = document.getElementById('harga_jual_edit');
+        hargaJualEditId.addEventListener('keyup', function(e) {
+            hargaJualEditId.value = formatRupiah(this.value, 'Rp. ');
+        });
+
+        var hargaRetailEditId = document.getElementById('harga_retail_edit');
+        hargaRetailEditId.addEventListener('keyup', function(e) {
+            hargaRetailEditId.value = formatRupiah(this.value, 'Rp. ');
+        });
+
+        var hargaWholesaleEditId = document.getElementById('harga_wholesale_edit');
+        hargaWholesaleEditId.addEventListener('keyup', function(e) {
+            hargaWholesaleEditId.value = formatRupiah(this.value, 'Rp. ');
         });
 
         $(document).on('click', '.edit_data_produk', function(event) {
             const id = $(event.currentTarget).attr('id-data-produk');
             const data_produk = daftar_data_produk[id]
 
-            let num = data_produk.harga;
-            let text = num.toLocaleString("id-ID", {
+            let num1 = data_produk.harga_beli;
+            let num2 = data_produk.harga_jual;
+            let num3 = data_produk.harga_retail;
+            let num4 = data_produk.harga_wholesale;
+            let text1 = num1.toLocaleString("id-ID", {
+                style: "currency",
+                currency: "IDR"
+            });
+            let text2 = num2.toLocaleString("id-ID", {
+                style: "currency",
+                currency: "IDR"
+            });
+            let text3 = num3.toLocaleString("id-ID", {
+                style: "currency",
+                currency: "IDR"
+            });
+            let text4 = num4.toLocaleString("id-ID", {
                 style: "currency",
                 currency: "IDR"
             });
@@ -332,9 +464,19 @@
             $("#formEditProduk [name='id']").val(id)
             $("#formEditProduk [name='kode']").val(data_produk.kode);
             $("#formEditProduk [name='nama_produk']").val(data_produk.nama_produk);
-            $("#formEditProduk [name='harga']").val(data_produk.harga).toString().replace(/(\d)(?=(\d{3})+(?!\d))/g,
+            $("#formEditProduk [name='harga_beli']").val(data_produk.harga_beli).toString().replace(
+                /(\d)(?=(\d{3})+(?!\d))/g,
                 "Rp.");
-            $("#formEditProduk [name='stok']").val(data_produk.stok);
+            $("#formEditProduk [name='harga_jual']").val(data_produk.harga_jual).toString().replace(
+                /(\d)(?=(\d{3})+(?!\d))/g,
+                "Rp.");
+            $("#formEditProduk [name='harga_retail']").val(data_produk.harga_retail).toString().replace(
+                /(\d)(?=(\d{3})+(?!\d))/g,
+                "Rp.");
+            $("#formEditProduk [name='harga_wholesale']").val(data_produk.harga_wholesale).toString().replace(
+                /(\d)(?=(\d{3})+(?!\d))/g,
+                "Rp.");
+            $("#formEditProduk [name='satuan']").val(data_produk.satuan);
 
             $('#formEditProduk').on('submit', function(e) {
                 e.preventDefault();

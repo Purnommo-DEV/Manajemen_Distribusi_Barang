@@ -18,7 +18,7 @@
                                 <a id="tombol-tambah-area"
                                     class="btn btn-sm btn-primary rounded-pill text-white fw-semibold tambah_isi_elemen"
                                     href="#" data-bs-toggle="modal" data-bs-target="#modalTambahPerjalanan"><i
-                                        class="fa fa-plus fa-xs"></i> Tambah Area
+                                        class="fa fa-plus fa-xs"></i> Tambah Perjalanan
                                 </a>
                             </div>
                             <div class="modal fade text-left" id="modalTambahPerjalanan" data-bs-backdrop="static"
@@ -26,9 +26,9 @@
                                 <div class="modal-dialog modal-dialog-centered">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h4 class="modal-title" id="myModalLabel33">Tambah Area</h4>
-                                            <button type="button" class="close batal" data-bs-dismiss="modal"
-                                                aria-label="Close">
+                                            <h4 class="modal-title" id="myModalLabel33">Tambah Perjalanan</h4>
+                                            <button type="button" id="batal" class="close batal"
+                                                data-bs-dismiss="modal" aria-label="Close">
                                                 <i data-feather="x"></i>
                                             </button>
                                         </div>
@@ -71,9 +71,9 @@
                                         <th>No.</th>
                                         <th>Kode</th>
                                         <th>Nama Sales</th>
-                                        <th>KM Awal</th>
-                                        <th>KM Akhir</th>
-                                        <th>Plat Kendaraan</th>
+                                        <th>Kilometer Awal</th>
+                                        <th>Kilometer Akhir</th>
+                                        <th>Kendaraan</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
@@ -81,6 +81,43 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade text-left" id="modalEditPerjalanan" data-bs-backdrop="static" data-bs-keyboard="false"
+        aria-labelledby="myModalLabel33" aria-hidden="true">>
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabel33">Ubah Pengguna</h4>
+                    <button type="button" class="close batal" data-bs-dismiss="modal" aria-label="Close">
+                        <i data-feather="x"></i>
+                    </button>
+                </div>
+                <form id="formEditPerjalanan" action="{{ route('admin.UbahDataPerjalanan') }}" method="POST">
+                    <input type="hidden" name="id" hidden>
+                    @csrf
+                    <div class="modal-body">
+                        <div class="modal-body">
+                            <div class="row mb-3">
+                                <label class="col col-form-label" for="provinsi">Pilih Sales</label>
+                                <div class="col-md-9">
+                                    <select class="form-control" name="user_sales_id" id="sales_id" required>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-light-secondary batal rounded-pill" data-bs-dismiss="modal">
+                            Batal
+                        </button>
+                        <button type="submit" class="btn btn-primary ml-1 rounded-pill">
+                            Simpan
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -150,9 +187,9 @@
                     "render": function(data, type, row, meta) {
                         daftar_data_perjalanan[row.id] = row;
                         if (row.km_awal == null) {
-                            return `<p>belum ditentukan`
+                            return `<p>belum ditentukan</p>`
                         } else {
-                            return row.km_awal.plat;
+                            return row.km_awal;
                         }
                     }
                 },
@@ -162,9 +199,9 @@
                     "render": function(data, type, row, meta) {
                         daftar_data_perjalanan[row.id] = row;
                         if (row.km_akhir == null) {
-                            return `<p>belum ditentukan`
+                            return `<p>belum ditentukan</p>`
                         } else {
-                            return row.km_akhir.plat;
+                            return row.km_akhir;
                         }
                     }
                 },
@@ -174,7 +211,7 @@
                     "render": function(data, type, row, meta) {
                         daftar_data_perjalanan[row.id] = row;
                         if (row.relasi_kendaraan == null) {
-                            return `<p>belum ditentukan`
+                            return `<p>belum ditentukan</p>`
                         } else {
                             return row.relasi_kendaraan.plat;
                         }
@@ -187,7 +224,7 @@
                         let tampilan;
                         tampilan = `
                             <div class="ms-auto">
-                                <a class="btn btn-link text-warning text-gradient px-3 mb-0" href="/admin/ubah-data-area/${row.kode}"><i class="fa fa-pen me-2"></i>Ubah</a>
+                                <a class="btn btn-link text-dark text-gradient px-3 mb-0 edit_data_perjalanan" id-perjalanan = "${row.id}" href="#!" ><i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>Ubah</a>
                                 <a class="btn btn-link text-danger text-gradient px-3 mb-0 hapus_data_perjalanan" id-perjalanan = "${row.id}" href="#!"><i class="fa fa-trash-alt me-2"></i>Hapus</a>
                                 <a class="btn btn-link text-success text-gradient px-3 mb-0" href="/admin/halaman-kunjungi-customer/${row.kode}"><i class="fa fa-eye me-2"></i>Daftar Customer</a>
                                 </div>
@@ -218,6 +255,7 @@
                             // $('span.'+prefix+'_error').text(val[0]);
                         });
                     } else if (data.status == 1) {
+                        $("#sales_id").empty().append('');
                         swal({
                                 title: "Berhasil",
                                 text: `${data.msg}`,
@@ -234,10 +272,59 @@
             });
         });
 
-        // $('.batal').on('click', function() {
-        //     $(document).find('label.error-text').text('');
-        //     $("#role").empty().append('');
-        // })
+        $('.batal').on('click', function() {
+            $(document).find('label.error-text').text('');
+            $("#sales_id").empty().append('');
+        })
+
+        let sales_retail = @json($sales_retail);
+
+        $(document).on('click', '.edit_data_perjalanan', function(event) {
+            const id = $(event.currentTarget).attr('id-perjalanan');
+            const data_perjalanan = daftar_data_perjalanan[id]
+            $("#modalEditPerjalanan").modal('show');
+            $("#formEditPerjalanan [name='id']").val(id)
+
+            $.each(sales_retail, function(key, value) {
+                $('#sales_id')
+                    .append(
+                        `<option value="${value.id}" ${value.id == data_perjalanan.user_sales_id ? 'selected' : ''}>${value.nama}</option>`
+                    )
+            });
+
+            $('#formEditPerjalanan').on('submit', function(e) {
+                e.preventDefault();
+                $.ajax({
+                    url: $(this).attr('action'),
+                    method: $(this).attr('method'),
+                    data: new FormData(this),
+                    processData: false,
+                    dataType: 'json',
+                    contentType: false,
+                    beforeSend: function() {
+                        $(document).find('label.error-text').text('');
+                    },
+                    success: function(data) {
+                        if (data.status == 0) {
+                            $.each(data.error, function(prefix, val) {
+                                $('label.' + prefix + '_error').text(val[0]);
+                                // $('span.'+prefix+'_error').text(val[0]);
+                            });
+                        } else if (data.status == 1) {
+                            $("#sales_id").empty().append('');
+                            $("#modalEditPerjalanan").modal('hide');
+                            swal({
+                                    title: "Berhasil",
+                                    text: `${data.msg}`,
+                                    icon: "success",
+                                    successMode: true,
+                                }),
+                                table_data_perjalanan.ajax.reload(null, false);
+                        }
+                    }
+                });
+            });
+        });
 
 
         $(document).on('click', '.hapus_data_perjalanan', function(event) {

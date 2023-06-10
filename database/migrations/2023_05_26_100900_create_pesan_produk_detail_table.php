@@ -13,8 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('pengambilan_pengembalian_barang', function (Blueprint $table) {
+        Schema::create('pesan_produk_detail', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('pesan_produk_id')->constrained('pesan_produk')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('produk_id')->constrained('produk')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->string('stok');
+            $table->text('catatan');
             $table->timestamps();
         });
     }
@@ -26,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pengambilan_pengembalian_barang');
+        Schema::dropIfExists('pesan_produk_detail');
     }
 };

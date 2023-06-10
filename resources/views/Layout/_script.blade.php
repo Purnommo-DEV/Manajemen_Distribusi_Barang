@@ -8,6 +8,9 @@
 <script src="{{ asset('Assets/js/plugins/jquery.dataTables.min.js') }}"></script>
 <script src="{{ asset('Assets/js/plugins/dataTables.bootstrap4.min.js') }}"></script>
 <script src="{{ asset('Assets/js/plugins/moment.js') }}"></script>
+<script src="{{ asset('Assets/js/plugins/jquery.validate.min.js') }}"></script>
+<script src="{{ asset('Assets/js/plugins/jquery.form.min.js') }}"></script>
+
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/gh/plentz/jquery-maskmoney@master/dist/jquery.maskMoney.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>

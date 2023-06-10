@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Storage;
-use App\Models\Customer;
 use PDF;
+use Storage;
+use App\Models\User;
+use App\Models\Customer;
 use Milon\Barcode\DNS2D;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -163,4 +164,5 @@ class Admin_CustomerController extends Controller
             ]);
         }
     }
+
 }

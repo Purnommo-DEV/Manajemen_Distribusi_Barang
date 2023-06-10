@@ -3,106 +3,183 @@
 namespace App\Http\Controllers\Admin;
 
 use Carbon\Carbon;
+use App\Models\BPPBM;
 use App\Models\Produk;
 use App\Models\Pesanan;
+use App\Models\Perjalanan;
 use Illuminate\Http\Request;
 use App\Models\PesananProduk;
 use App\Models\StatusPesanan;
 use App\Http\Controllers\Controller;
+use App\Models\Rute;
+use App\Models\Transaksi;
+use App\Models\TransaksiDetail;
 
 class Admin_LaporanController extends Controller
 {
-    public function laporan_pesanan(){
-        return view('Admin.Laporan.daftar_laporan');
+    // LAPORAN STOK PRODUK
+    public function halaman_laporan_stok_produk(){
+        return view('Admin.Laporan.stok_produk');
     }
 
-    public function data_pesanan(Request $request){
-        $data = Pesanan::select([
-            'pesanan.*'
-        ])->with(['relasi_distributor', 'relasi_status'])->orderBy('created_at', 'desc');
-        
-        // $tgl_awal = $request->input('data_tgl_awal');
-        // $tgl_akhir = $request->input('data_tgl_akhir');
+    public function data_laporan_stok_produk(Request $request){
+        $data = Produk::select([
+            'produk.*'
+        ])->orderBy('created_at', 'desc');
 
-        // dd($tgl_awal, $tgl_akhir);
+        if ($request->input('search.value') != null) {
+            $data = $data->where(function ($q) use ($request) {
+                $q->whereRaw('LOWER(nama_produk) like ?', ['%' . strtolower($request->input('search.value')) . '%']);
+            })->orWhere(function ($q2) use ($request) {
+                $q2->whereRaw('LOWER(kode) like ?', ['%' . strtolower($request->input('search.value')) . '%']);
+            });
+        }
 
-        // if ($request->input('tgl_awal') && $request->input('tgl_akhir')) {
-
-        //     $tgl_awal  = Carbon::parse($request->input('tgl_awal'));
-        //     $tgl_akhir = Carbon::parse($request->input('tgl_akhir'));
-
-        //     if ($tgl_akhir->greaterThan($tgl_awal)) {
-        //         $rekamFilter = $data->get()->count();
-        //         if($request->input('length')!=-1) 
-        //             $data = $data->skip($request->input('start'))->take($request->input('length'));
-        //             $rekamTotal = $data->count();
-        //             $data = $data->whereBetween('created_at', [$tgl_awal, $tgl_akhir])->get();
-        //     } else {
-        //         $rekamFilter = $data->get()->count();
-        //         if($request->input('length')!=-1) 
-        //             $data = $data->skip($request->input('start'))->take($request->input('length'));
-        //             $rekamTotal = $data->count();
-        //             $data = $data->get();
-        //     }
-            
-        // }else{
-        //     $rekamFilter = $data->get()->count();
-        //     if($request->input('length')!=-1) 
-        //     $data = $data->skip($request->input('start'))->take($request->input('length'));
-        //     $rekamTotal = $data->count();
-        //     $data = $data->latest()->get();
-        // }
-        // if($request->input('role_pengguna')!=null){
-        //     $data = $data->where('role_id', $request->role_pengguna);
-        // }
         $rekamFilter = $data->get()->count();
-            if($request->input('length')!=-1) 
+        if ($request->input('length') != -1)
             $data = $data->skip($request->input('start'))->take($request->input('length'));
-            $rekamTotal = $data->count();
-            $data = $data->latest()->get();
-        
+        $rekamTotal = $data->count();
+        $data = $data->get();
         return response()->json([
-            'draw'=>$request->input('draw'),
-            'data'=>$data,
-            'recordsTotal'=>$rekamTotal,
-            'recordsFiltered'=>$rekamFilter
+            'draw' => $request->input('draw'),
+            'data' => $data,
+            'recordsTotal' => $rekamTotal,
+            'recordsFiltered' => $rekamFilter
         ]);
     }
 
-    public function laporan_produk_pesanan($id){
-        $status_pesanan = StatusPesanan::orderBy('created_at', 'desc')->where('pesanan_id', $id)->first() ?? new StatusPesanan();
-        $produk = Produk::get(['id', 'nama_produk']);
-        $data_pesanan = Pesanan::with('relasi_distributor')->where('id', $id)->first();
-
-        return view('Admin.Laporan.detail_laporan', compact('data_pesanan', 'produk', 'status_pesanan'));
+    // LAPORAN BPPBM
+    public function halaman_laporan_bppbm(){
+        return view('Admin.Laporan.bppbm');
     }
 
-    public function data_produk_pesanan(Request $request, $id){
-        $data = PesananProduk::select([
-            'produk_pesanan.*'
-        ])->with('relasi_pesanan', 'relasi_produk')->where('pesanan_id', $id)->orderBy('id', 'desc');
+    public function data_laporan_bppbm(Request $request)
+    {
+        $data = Perjalanan::select([
+            'perjalanan.*'
+        ])->with('relasi_sales');
 
         $rekamFilter = $data->get()->count();
-        if($request->input('length')!=-1) 
+        if ($request->input('length') != -1)
             $data = $data->skip($request->input('start'))->take($request->input('length'));
-            $rekamTotal = $data->count();
-            $data = $data->get();
+        $rekamTotal = $data->count();
+        $data = $data->get();
+
         return response()->json([
-            'draw'=>$request->input('draw'),
-            'data'=>$data,
-            'recordsTotal'=>$rekamTotal,
-            'recordsFiltered'=>$rekamFilter
+            'draw' => $request->input('draw'),
+            'data' => $data,
+            'recordsTotal' => $rekamTotal,
+            'recordsFiltered' => $rekamFilter
         ]);
     }
 
-    public function data_status_pesanan(Request $request, $id){
-        $data = StatusPesanan::select([
-            'status_pesanan.*'
-        ])->with('relasi_pesanan')->where('pesanan_id', $id);
-            $data = $data->orderBy('created_at', 'desc')->get();
+    public function detail_data_laporan_bppbm(Request $request, $perjalanan_id){
+        $data = BPPBM::select([
+            'bppbm.*'
+        ])->with('relasi_perjalanan', 'relasi_produk')->where('perjalanan_id', $perjalanan_id);
+
+
+        $rekamFilter = $data->get()->count();
+        if ($request->input('length') != -1)
+            $data = $data->skip($request->input('start'))->take($request->input('length'));
+        $rekamTotal = $data->count();
+        $data = $data->get();
+
         return response()->json([
-            'draw'=>$request->input('draw'),
-            'data'=>$data,
+            'draw' => $request->input('draw'),
+            'data' => $data,
+            'recordsTotal' => $rekamTotal,
+            'recordsFiltered' => $rekamFilter
+        ]);
+    }
+
+    // LAPORAN PERJALANAN
+    public function halaman_laporan_perjalanan(){
+        return view('Admin.Laporan.perjalanan');
+    }
+
+    public function data_laporan_perjalanan(Request $request)
+    {
+        $data = Perjalanan::select([
+            'perjalanan.*'
+        ])->with('relasi_sales');
+
+        $rekamFilter = $data->get()->count();
+        if ($request->input('length') != -1)
+            $data = $data->skip($request->input('start'))->take($request->input('length'));
+        $rekamTotal = $data->count();
+        $data = $data->get();
+
+        return response()->json([
+            'draw' => $request->input('draw'),
+            'data' => $data,
+            'recordsTotal' => $rekamTotal,
+            'recordsFiltered' => $rekamFilter
+        ]);
+    }
+
+    public function detail_data_laporan_perjalanan(Request $request, $perjalanan_id){
+        $data = Rute::select([
+            'rute.*'
+        ])->with('relasi_perjalanan', 'relasi_customer')->where('perjalanan_id', $perjalanan_id);
+
+
+        $rekamFilter = $data->get()->count();
+        if ($request->input('length') != -1)
+            $data = $data->skip($request->input('start'))->take($request->input('length'));
+        $rekamTotal = $data->count();
+        $data = $data->get();
+
+        return response()->json([
+            'draw' => $request->input('draw'),
+            'data' => $data,
+            'recordsTotal' => $rekamTotal,
+            'recordsFiltered' => $rekamFilter
+        ]);
+    }
+
+    // LAPORAN TRANSAKSI
+    public function halaman_laporan_transaksi(){
+        return view('Admin.Laporan.transaksi');
+    }
+
+    public function data_laporan_transaksi(Request $request)
+    {
+        $data = Transaksi::select([
+            'transaksi.*'
+        ])->with('relasi_perjalanan','relasi_perjalanan.relasi_sales','relasi_customer');
+
+        $rekamFilter = $data->get()->count();
+        if ($request->input('length') != -1)
+            $data = $data->skip($request->input('start'))->take($request->input('length'));
+        $rekamTotal = $data->count();
+        $data = $data->get();
+
+        return response()->json([
+            'draw' => $request->input('draw'),
+            'data' => $data,
+            'recordsTotal' => $rekamTotal,
+            'recordsFiltered' => $rekamFilter
+        ]);
+    }
+
+    public function detail_data_laporan_transaksi(Request $request, $transaksi_id){
+        $data = TransaksiDetail::select([
+            'transaksi_detail.*'
+        ])->with('relasi_transaksi', 'relasi_produk')->where('transaksi_id', $transaksi_id);
+
+
+        $rekamFilter = $data->get()->count();
+        if ($request->input('length') != -1)
+            $data = $data->skip($request->input('start'))->take($request->input('length'));
+        $rekamTotal = $data->count();
+        $data = $data->get();
+
+        return response()->json([
+            'draw' => $request->input('draw'),
+            'data' => $data,
+            'recordsTotal' => $rekamTotal,
+            'recordsFiltered' => $rekamFilter
         ]);
     }
 }

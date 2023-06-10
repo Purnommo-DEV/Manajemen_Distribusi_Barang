@@ -1,10 +1,10 @@
-@extends('Layout.master', ['title' => 'Data Kendaraan'])
+@extends('Layout.master', ['title' => 'Daftar Perusahaan'])
 @section('nav')
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
-            <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="javascript:;">Data Kendaraan/</a></li>
+            <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="javascript:;">Daftar Perusahaan/</a></li>
         </ol>
-        <h6 class="font-weight-bolder mb-0">Data Kendaraan</h6>
+        <h6 class="font-weight-bolder mb-0">Daftar Perusahaan</h6>
     </nav>
 @endsection
 @section('konten')
@@ -17,47 +17,41 @@
                             <div class="buttons">
                                 <a id="tombol-tambah-area"
                                     class="btn btn-sm btn-primary rounded-pill text-white fw-semibold tambah_isi_elemen"
-                                    href="#" data-bs-toggle="modal" data-bs-target="#modalTambahArea"><i
-                                        class="fa fa-plus fa-xs"></i> Tambah Kendaraan
+                                    href="#" data-bs-toggle="modal" data-bs-target="#modalTambahPerusahaan"><i
+                                        class="fa fa-plus fa-xs"></i> Tambah Perusahaan
                                 </a>
                             </div>
-                            <div class="modal fade text-left" id="modalTambahArea" data-bs-backdrop="static"
+                            <div class="modal fade text-left" id="modalTambahPerusahaan" data-bs-backdrop="static"
                                 data-bs-keyboard="false" aria-labelledby="myModalLabel33" aria-hidden="true">>
                                 <div class="modal-dialog modal-dialog-centered">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h4 class="modal-title" id="myModalLabel33">Tambah Kendaraan</h4>
-                                            <button type="button" class="close batal" data-bs-dismiss="modal"
-                                                aria-label="Close">
+                                            <h4 class="modal-title" id="myModalLabel33">Tambah Perusahaan</h4>
+                                            <button type="button" id="batal" class="close batal"
+                                                data-bs-dismiss="modal" aria-label="Close">
                                                 <i data-feather="x"></i>
                                             </button>
                                         </div>
-                                        <form action="{{ route('admin.TambahDataKendaraan') }}" id="formTambahKendaraan"
+                                        <form action="{{ route('admin.TambahDataPerusahaan') }}" id="formTambahPerusahaan"
                                             method="POST">
                                             @csrf
                                             <div class="modal-body">
-                                                <div class="row mb-3">
-                                                    <label class="col col-form-label" for="tipe">Tipe</label>
-                                                    <div class="col-md-9">
-                                                        <input type="text" name="tipe" class="form-control"
-                                                            id="exampleInputPassword1" placeholder="Tipe">
+                                                <label class="col col-form-label" for="tipe">Perusahaan</label>
+                                                <div class="form-group">
+                                                    <input type="text" name="perusahaan" class="form-control"
+                                                        id="exampleInputPassword1" placeholder="Nama Perusahaan">
+                                                    <div class="input-group has-validation">
+                                                        <label class="text-danger error-text perusahaan_error"></label>
                                                     </div>
                                                 </div>
-                                                <div class="row mb-3">
-                                                    <label class="col col-form-label" for="plat">Nomor Polisi</label>
-                                                    <div class="col-md-9">
-                                                        <input type="text" name="plat" class="form-control"
-                                                            id="exampleInputPassword1" placeholder="Nomor Polisi">
+                                                <label class="col col-form-label" for="tipe">Alamat</label>
+                                                <div class="form-group">
+                                                    <input type="text" name="alamat" class="form-control"
+                                                        id="exampleInputPassword1" placeholder="Alamat">
+                                                    <div class="input-group has-validation">
+                                                        <label class="text-danger error-text alamat_error"></label>
                                                     </div>
                                                 </div>
-                                                <div class="row mb-3">
-                                                    <label class="col col-form-label" for="keterangan_lainnnya">Keterangan
-                                                        Lainnya</label>
-                                                    <div class="col-md-9">
-                                                        <textarea name="keterangan_lainnya" class="form-control" id="exampleInputPassword1" placeholder="Keterangan Lainnya"></textarea>
-                                                    </div>
-                                                </div>
-
                                             </div>
 
                                             <div class="modal-footer">
@@ -73,13 +67,12 @@
                                     </div>
                                 </div>
                             </div>
-                            <table class="table table-striped" id="table-data-kendaraan">
+                            <table class="table table-striped" id="table-data-perusahaan">
                                 <thead>
                                     <tr>
                                         <th>No.</th>
-                                        <th>Tipe</th>
-                                        <th>Nomor Polisi</th>
-                                        <th>Keterangan Lainnya</th>
+                                        <th>Perusahaan</th>
+                                        <th>Alamat</th>
                                         <th>Aksi</th>
                                     </tr>
                                 </thead>
@@ -91,43 +84,36 @@
         </div>
     </div>
 
-    <div class="modal fade text-left" id="modalEditKendaraan" data-bs-backdrop="static" data-bs-keyboard="false"
+    <div class="modal fade text-left" id="modalEditPerusahaan" data-bs-backdrop="static" data-bs-keyboard="false"
         aria-labelledby="myModalLabel33" aria-hidden="true">>
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title" id="myModalLabel33">Ubah Kendaraan</h4>
+                    <h4 class="modal-title" id="myModalLabel33">Ubah Perusahaan</h4>
                     <button type="button" class="close batal" data-bs-dismiss="modal" aria-label="Close">
                         <i data-feather="x"></i>
                     </button>
                 </div>
-                <form id="formEditKendaraan" action="{{ route('admin.UbahDataKendaraan') }}" method="POST">
+                <form id="formEditPerusahaan" action="{{ route('admin.UbahDataPerusahaan') }}" method="POST">
                     <input type="hidden" name="id" hidden>
                     @csrf
                     <div class="modal-body">
-                        <div class="row mb-3">
-                            <label class="col col-form-label" for="tipe">Tipe</label>
-                            <div class="col-md-9">
-                                <input type="text" name="tipe" class="form-control" id="exampleInputPassword1"
-                                    placeholder="Tipe">
+                        <label class="col col-form-label" for="tipe">Perusahaan</label>
+                        <div class="form-group">
+                            <input type="text" name="perusahaan" class="form-control" id="exampleInputPassword1"
+                                placeholder="Nama Perusahaan">
+                            <div class="input-group has-validation">
+                                <label class="text-danger error-text perusahaan_error"></label>
                             </div>
                         </div>
-                        <div class="row mb-3">
-                            <label class="col col-form-label" for="plat">Nomor Polisi</label>
-                            <div class="col-md-9">
-                                <input type="text" name="plat" class="form-control" id="exampleInputPassword1"
-                                    placeholder="Nomor Polisi">
+                        <label class="col col-form-label" for="tipe">Alamat</label>
+                        <div class="form-group">
+                            <input type="text" name="alamat" class="form-control" id="exampleInputPassword1"
+                                placeholder="Alamat">
+                            <div class="input-group has-validation">
+                                <label class="text-danger error-text alamat_error"></label>
                             </div>
                         </div>
-                        <div class="row mb-3">
-                            <label class="col col-form-label" for="keterangan_lainnnya">Keterangan
-                                Lainnya</label>
-                            <div class="col-md-9">
-                                <textarea name="keterangan_lainnya" class="form-control" id="exampleInputPassword1"
-                                    placeholder="Keterangan Lainnya"></textarea>
-                            </div>
-                        </div>
-
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-light-secondary batal rounded-pill"
@@ -145,8 +131,8 @@
 @endsection
 @section('script')
     <script>
-        let daftar_data_kendaraan = [];
-        const table_data_kendaraan = $('#table-data-kendaraan').DataTable({
+        let daftar_data_perusahaan = [];
+        const table_data_perusahaan = $('#table-data-perusahaan').DataTable({
             "destroy": true,
             "pageLength": 10,
             "lengthMenu": [
@@ -162,7 +148,7 @@
             "sScrollX": '100%',
             "sScrollXInner": "100%",
             ajax: {
-                url: "{{ route('admin.DataKendaraan') }}",
+                url: "{{ route('admin.DataPerusahaan') }}",
                 type: "POST",
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -182,7 +168,7 @@
                     "class": "text-nowrap text-center",
                     "render": function(data, type, row, meta) {
                         let i = 1;
-                        daftar_data_kendaraan[row.id] = row;
+                        daftar_data_perusahaan[row.id] = row;
                         return meta.row + 1;
                     }
                 },
@@ -190,45 +176,37 @@
                     "targets": 1,
                     "class": "text-wrap text-center",
                     "render": function(data, type, row, meta) {
-                        daftar_data_kendaraan[row.id] = row;
-                        return row.tipe;
+                        daftar_data_perusahaan[row.id] = row;
+                        return row.perusahaan;
                     }
                 },
                 {
                     "targets": 2,
                     "class": "text-wrap text-center",
                     "render": function(data, type, row, meta) {
-                        daftar_data_kendaraan[row.id] = row;
-                        return row.plat;
+                        daftar_data_perusahaan[row.id] = row;
+                        return row.alamat;
                     }
                 },
                 {
                     "targets": 3,
-                    "class": "text-wrap text-center",
-                    "render": function(data, type, row, meta) {
-                        daftar_data_kendaraan[row.id] = row;
-                        return row.keterangan_lainnya;
-                    }
-                },
-                {
-                    "targets": 4,
                     "class": "text-nowrap text-center",
                     "render": function(data, type, row, meta) {
                         let tampilan;
                         tampilan = `
                             <div class="ms-auto">
-                        <a class="btn btn-link text-dark text-gradient px-3 mb-0 edit_kendaraan" id-kendaraan = "${row.id}" href="#!" ><i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>Ubah</a>
-                                <a class="btn btn-link text-danger text-gradient px-3 mb-0 hapus_kendaraan" id-kendaraan = "${row.id}" href="#!"><i class="fa fa-trash-alt me-2"></i>Hapus</a>
+                                <a class="btn btn-link text-dark text-gradient px-3 mb-0 edit_data_perusahaan" id-perusahaan = "${row.id}" href="#!" ><i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>Ubah</a>
+                                <a class="btn btn-link text-danger text-gradient px-3 mb-0 hapus_data_perusahaan" id-perusahaan = "${row.id}" href="#!"><i class="fa fa-trash-alt me-2"></i>Hapus</a>
                                 </div>
                                 `
-                        // <a class="btn btn-link text-dark text-gradient px-3 mb-0 edit_kendaraan" id-kendaraan = "${row.id}" href="#!" ><i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>Ubah</a>
+                        // <a class="btn btn-link text-dark text-gradient px-3 mb-0 edit_area" id-perusahaan = "${row.id}" href="#!" ><i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>Ubah</a>
                         return tampilan;
                     }
                 },
             ]
         });
 
-        $('#formTambahKendaraan').on('submit', function(e) {
+        $('#formTambahPerusahaan').on('submit', function(e) {
             e.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),
@@ -247,6 +225,7 @@
                             // $('span.'+prefix+'_error').text(val[0]);
                         });
                     } else if (data.status == 1) {
+                        $("#sales_id").empty().append('');
                         swal({
                                 title: "Berhasil",
                                 text: `${data.msg}`,
@@ -254,24 +233,24 @@
                                 buttons: true,
                                 successMode: true,
                             }),
-                            table_data_kendaraan.ajax.reload(null, false)
+                            table_data_perusahaan.ajax.reload(null, false)
 
-                        $("#formTambahKendaraan")[0].reset();
-                        $("#modalTambahArea").modal('hide')
+                        $("#formTambahPerusahaan")[0].reset();
+                        $("#modalTambahPerusahaan").modal('hide')
                     }
                 }
             });
         });
 
-        $(document).on('click', '.edit_kendaraan', function(event) {
-            const id = $(event.currentTarget).attr('id-kendaraan');
-            const data_kendaraan = daftar_data_kendaraan[id]
-            $("#modalEditKendaraan").modal('show');
-            $("#formEditKendaraan [name='id']").val(id)
-            $("#formEditKendaraan [name='tipe']").val(data_kendaraan.tipe);
-            $("#formEditKendaraan [name='plat']").val(data_kendaraan.plat);
-            $("#formEditKendaraan [name='keterangan_lainnya']").val(data_kendaraan.keterangan_lainnya);
-            $('#formEditKendaraan').on('submit', function(e) {
+        $(document).on('click', '.edit_data_perusahaan', function(event) {
+            const id = $(event.currentTarget).attr('id-perusahaan');
+            const data_perusahaan = daftar_data_perusahaan[id]
+            $("#modalEditPerusahaan").modal('show');
+            $("#formEditPerusahaan [name='id']").val(id)
+            $("#formEditPerusahaan [name='perusahaan']").val(data_perusahaan.perusahaan)
+            $("#formEditPerusahaan [name='alamat']").val(data_perusahaan.alamat)
+
+            $('#formEditPerusahaan').on('submit', function(e) {
                 e.preventDefault();
                 $.ajax({
                     url: $(this).attr('action'),
@@ -290,27 +269,23 @@
                                 // $('span.'+prefix+'_error').text(val[0]);
                             });
                         } else if (data.status == 1) {
-                            $("#modalEditKendaraan").modal('hide');
+                            $("#modalEditPerusahaan").modal('hide');
                             swal({
                                     title: "Berhasil",
                                     text: `${data.msg}`,
                                     icon: "success",
                                     successMode: true,
                                 }),
-                                table_data_kendaraan.ajax.reload(null, false);
+                                table_data_perusahaan.ajax.reload(null, false);
                         }
                     }
                 });
             });
         });
-        // $('.batal').on('click', function() {
-        //     $(document).find('label.error-text').text('');
-        //     $("#role").empty().append('');
-        // })
 
 
-        $(document).on('click', '.hapus_kendaraan', function(event) {
-            const id = $(event.currentTarget).attr('id-kendaraan');
+        $(document).on('click', '.hapus_data_perusahaan', function(event) {
+            const id = $(event.currentTarget).attr('id-perusahaan');
 
             swal({
                 title: "Yakin ?",
@@ -322,7 +297,7 @@
 
                 if (willDelete) {
                     $.ajax({
-                        url: "/admin/hapus-data-kendaraan/" + id,
+                        url: "/admin/hapus-data-perusahan/" + id,
                         dataType: 'json',
                         success: function(response) {
                             if (response.status == 0) {
@@ -334,7 +309,7 @@
                                         icon: "success",
                                         successMode: true,
                                     }),
-                                    table_data_kendaraan.ajax.reload()
+                                    table_data_perusahaan.ajax.reload()
                             }
                         }
                     });
