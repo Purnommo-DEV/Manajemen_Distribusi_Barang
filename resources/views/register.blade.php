@@ -7,7 +7,7 @@
     <link rel="apple-touch-icon" sizes="76x76" href="Assets/img/apple-icon.png">
     <link rel="icon" type="image/png" href="Assets/img/favicon.png">
     <title>
-        Login Pengguna
+        Register
     </title>
     <!--     Fonts and icons     -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
@@ -31,11 +31,17 @@
                             <div class="card card-plain mt-8">
                                 <div class="card-header pb-0 text-left bg-transparent">
                                     <h3 class="font-weight-bolder text-info text-gradient">Selamat Datang</h3>
-                                    <p class="mb-0">Silahkan masukkan email dan password anda</p>
+                                    <p class="mb-0">Silahkan lengkapi form berikut ini</p>
                                 </div>
                                 <div class="card-body">
-                                    <form action="{{ route('Auth') }}" method="POST" id="formLogin">
+                                    <form action="{{ route('RegisterAkun') }}" method="POST" id="formRegister">
                                         @csrf
+                                        <label>Nama Lengkap</label>
+                                        <div class="mb-3">
+                                            <input type="text" class="form-control" name="nama" id="nama_user"
+                                                placeholder="Nama Lengkap" aria-label="Nama Lengkap"
+                                                aria-describedby="nama-addon">
+                                        </div>
                                         <label>Email</label>
                                         <div class="mb-3">
                                             <input type="email" class="form-control" name="email" id="email_user"
@@ -57,18 +63,18 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        <label>Role</label>
+                                        <div class="mb-3">
+                                            <select name="role_id" id="" class="form-control">
+                                                <option value="2">Sales Retail</option>
+                                                <option value="3">Sales Wholesale</option>
+                                            </select>
+                                        </div>
                                         <div class="text-center">
                                             <button type="submit"
-                                                class="btn bg-gradient-info w-100 mt-4 mb-0">Masuk</button>
+                                                class="btn bg-gradient-info w-100 mt-4 mb-0">Daftar</button>
                                         </div>
                                     </form>
-                                </div>
-                                <div class="card-footer text-center pt-0 px-lg-2 px-1">
-                                    <p class="mb-4 text-sm mx-auto">
-                                        Belum memiliki akun?
-                                        <a href="{{ route('Register') }}"
-                                            class="text-info text-gradient font-weight-bold">Daftar</a>
-                                    </p>
                                 </div>
                             </div>
                         </div>
@@ -117,7 +123,7 @@
                 hide_eye.style.display = "none";
             }
         }
-        $('#formLogin').on('submit', function(e) {
+        $('#formRegister').on('submit', function(e) {
             e.preventDefault();
             $.ajax({
                 url: $(this).attr('action'),

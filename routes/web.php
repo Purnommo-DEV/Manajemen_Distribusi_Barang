@@ -30,7 +30,9 @@ use App\Http\Controllers\Admin\WilayahIndonesiaController;
 // Route::middleware('guest')->group(function () {
 Route::controller(AuthController::class)->group(function () {
     Route::get('/', 'login')->name('Login');
+    Route::get('register', 'register')->name('Register');
     Route::post('login', 'authenticate')->name('Auth');
+    Route::post('register-akun', 'register_akun')->name('RegisterAkun');
 });
 // });
 
