@@ -149,7 +149,7 @@
                             </li>
                         </ul>
                     </div>
-                    <div class="collapse {{ request()->routeIs('admin.HalamanPerjalananTemp*') }} show"
+                    <!-- <div class="collapse {{ request()->routeIs('admin.HalamanPerjalananTemp*') }} show"
                         id="Perjalanan">
                         <ul class="nav ms-4 ps-3">
                             <li
@@ -158,8 +158,8 @@
                                 </a>
                             </li>
                         </ul>
-                    </div>
-                    {{-- <div class="collapse" id="basicExamples">
+                    </div> -->
+                    <!-- <div class="collapse" id="basicExamples">
                         <ul class="nav ms-4 ps-3">
                             <li
                                 class="nav-item {{ request()->routeIs('admin.HalamanPenagihanHutang*') ? 'active' : '' }}">
@@ -167,7 +167,7 @@
                                 </a>
                             </li>
                         </ul>
-                    </div> --}}
+                    </div>  -->
                 </li>
 
                 <li class="nav-item">
@@ -267,7 +267,7 @@
                     </div> --}}
                 </li>
 
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a data-bs-toggle="collapse" href="#Laporan"
                         class="nav-link
                         @if (request()->routeIs('admin.HalamanLaporanStokProduk*')) {{ request()->routeIs('admin.HalamanLaporanStokProduk*') ? 'active' : '' }}
@@ -332,51 +332,54 @@
                             </li>
                         </ul>
                     </div>
+                </li> --}}
 
-                    {{--
-                    <div class="collapse {{ request()->routeIs('admin.HalamanPerjalananTemp*') ? 'show' : '' }}"
-                        id="basicExamples">
-                        <ul class="nav ms-4 ps-3">
-                            <li
-                                class="nav-item {{ request()->routeIs('admin.HalamanPerjalananTemp*') ? 'active' : '' }}">
-                                <a class="nav-link" href="{{ route('admin.HalamanPerjalananTemp') }}">Perjalanan
-                                </a>
-                            </li>
-                        </ul>
-                    </div> --}}
-                    {{-- <div class="collapse {{ request()->routeIs('admin.HalamanPerjalananTemp*') ? 'show' : '' }}"
-                        id="basicExamples">
-                        <ul class="nav ms-4 ps-3">
-                            <li
-                                class="nav-item {{ request()->routeIs('admin.HalamanPerjalananTemp*') ? 'active' : '' }}">
-                                <a class="nav-link" href="{{ route('admin.HalamanPerjalananTemp') }}">Kinerja Sales
-                                </a>
-                            </li>
-                        </ul>
-                    </div> --}}
-                    {{-- <div class="collapse {{ request()->routeIs('admin.HalamanPerjalananTemp*') ? 'show' : '' }}"
-                        id="basicExamples">
-                        <ul class="nav ms-4 ps-3">
-                            <li
-                                class="nav-item {{ request()->routeIs('admin.HalamanPerjalananTemp*') ? 'active' : '' }}">
-                                <a class="nav-link" href="{{ route('admin.HalamanPerjalananTemp') }}">Customer
-                                </a>
-                            </li>
-                        </ul>
-                    </div> --}}
-                    {{-- <div class="collapse {{ request()->routeIs('admin.HalamanPerjalananTemp*') ? 'show' : '' }}"
-                        id="basicExamples">
-                        <ul class="nav ms-4 ps-3">
-                            <li
-                                class="nav-item {{ request()->routeIs('admin.HalamanPerjalananTemp*') ? 'active' : '' }}">
-                                <a class="nav-link" href="{{ route('admin.HalamanPerjalananTemp') }}">Transaksi
-                                    Penjualan
-                                </a>
-                            </li>
-                        </ul>
-                    </div> --}}
+                <li class="nav-item">
+                    <a data-bs-toggle="collapse" href="#Laporan"
+                        class="nav-link
+                        @if (request()->routeIs('admin.HalamanRutePlan*')) {{ request()->routeIs('admin.HalamanRutePlan*') ? 'active' : '' }}
+                        @elseif(request()->routeIs('admin.HalamanLaporanBPPBM*')) {{ request()->routeIs('admin.HalamanLaporanBPPBM*') ? 'active' : '' }}
+                        @elseif(request()->routeIs('admin.HalamanLaporanPerjalanan*')) {{ request()->routeIs('admin.HalamanLaporanPerjalanan*') ? 'active' : '' }}
+                        @elseif(request()->routeIs('admin.HalamanLaporanTransaksi*')) {{ request()->routeIs('admin.HalamanLaporanTransaksi*') ? 'active' : '' }}
+                        " @endif
 
+                        aria-controls="Laporan"
+                        role="button" aria-expanded="true">
+                        <div
+                            class="icon icon-shape icon-sm shadow border-radius-md bg-white text-center me-2 d-flex align-items-center justify-content-center">
+                            <i
+                                class="fas fa-route
+                                @if (request()->routeIs('admin.HalamanRutePlan*')) {{ request()->routeIs('admin.HalamanRutePlan*') ? 'warna-white' : 'warna-black' }}
+                                @elseif (request()->routeIs('admin.HalamanRutePlanTemp*')) {{ request()->routeIs('admin.HalamanRutePlanTemp*') ? 'warna-white' : 'warna-black' }}
+                                @elseif(request()->routeIs('admin.HalamanLaporanPerjalanan*')) {{ request()->routeIs('admin.HalamanLaporanPerjalanan*') ? 'warna-white' : 'warna-black' }}
+                                @elseif(request()->routeIs('admin.HalamanLaporanTransaksi*')) {{ request()->routeIs('admin.HalamanLaporanTransaksi*') ? 'warna-white' : 'warna-black' }}
+                                @else
+                                    warna-black @endif
+                                ">
+                            </i>
+                        </div>
+                        <span class="nav-link-text ms-1">Rute</span>
+                    </a>
+                    <div class="collapse {{ request()->routeIs('admin.HalamanRutePlan*') }} show" id="Laporan">
+                        <ul class="nav ms-4 ps-3">
+                            <li class="nav-item {{ request()->routeIs('admin.HalamanRutePlan*') ? 'active' : '' }}">
+                                <a class="nav-link" href="{{ route('admin.HalamanRutePlan') }}">Rute Perjalanan
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="collapse {{ request()->routeIs('admin.HalamanRutePlanTemp*') }} show" id="Laporan">
+                        <ul class="nav ms-4 ps-3">
+                            <li
+                                class="nav-item {{ request()->routeIs('admin.HalamanRutePlanTemp*') ? 'active' : '' }}">
+                                <a class="nav-link" href="{{ route('admin.HalamanRutePlanTemp') }}">Rute Perjalanan
+                                    Temporary
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
                 </li>
+
 
                 {{-- <li class="nav-item">
                     <a class="nav-link {{ request()->routeIs('admin.Laporan*') ? 'active' : '' }} "

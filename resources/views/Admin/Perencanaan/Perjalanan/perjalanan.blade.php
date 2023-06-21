@@ -226,9 +226,9 @@
                             <div class="ms-auto">
                                 <a class="btn btn-link text-dark text-gradient px-3 mb-0 edit_data_perjalanan" id-perjalanan = "${row.id}" href="#!" ><i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>Ubah</a>
                                 <a class="btn btn-link text-danger text-gradient px-3 mb-0 hapus_data_perjalanan" id-perjalanan = "${row.id}" href="#!"><i class="fa fa-trash-alt me-2"></i>Hapus</a>
-                                <a class="btn btn-link text-success text-gradient px-3 mb-0" href="/admin/halaman-kunjungi-customer/${row.kode}"><i class="fa fa-eye me-2"></i>Daftar Customer</a>
                                 </div>
                                 `
+                                // <a class="btn btn-link text-success text-gradient px-3 mb-0" href="/admin/halaman-kunjungi-customer/${row.kode}"><i class="fa fa-eye me-2"></i>Daftar Customer</a>
                         // <a class="btn btn-link text-dark text-gradient px-3 mb-0 edit_area" id-perjalanan = "${row.id}" href="#!" ><i class="fas fa-pencil-alt text-dark me-2" aria-hidden="true"></i>Ubah</a>
                         return tampilan;
                     }

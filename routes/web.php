@@ -14,6 +14,8 @@ use App\Http\Controllers\Admin\Admin_ManajemenBPPBM;
 use App\Http\Controllers\Admin\Admin_Perencanaan;
 use App\Http\Controllers\Admin\Admin_Perusahaan;
 use App\Http\Controllers\Admin\Admin_PesanProduk;
+use App\Http\Controllers\Admin\Admin_RoutePlan;
+use App\Http\Controllers\Admin\Admin_RoutePlanTemp;
 use App\Http\Controllers\Admin\WilayahIndonesiaController;
 
 /*
@@ -153,6 +155,34 @@ Route::middleware(['auth'])->group(function () {
             Route::post('tambah-data-kunjungi-customer-temp', 'tambah_data_kunjungi_customer_temp')->name('TambahDataKunjungiCustomerTemp');
             Route::post('ubah-data-kunjungi-customer-temp', 'ubah_data_kunjungi_customer_temp')->name('UbahDataKunjungiCustomerTemp');
             Route::get('hapus-data-kunjungi-customer-temp/{id}', 'hapus_data_kunjungi_customer_temp')->name('HapusDataKunjungiCustomerTemp');
+        });
+
+        // RUTE PERJALANAN
+        Route::controller(Admin_RoutePlan::class)->group(function () {
+            Route::get('halaman-rute-plan', 'halaman_rute_plan')->name('HalamanRutePlan');
+            Route::any('data-rute-plan', 'data_rute_plan')->name('DataRutePlan');
+            Route::post('ubah-rute-plan', 'ubah_rute_plan')->name('UbahRutePlan');
+            Route::post('tambah-rute-plan', 'tambah_rute_plan')->name('TambahRutePlan');
+            Route::get('hapus-rute-plan/{id}', 'hapus_rute_plan');
+
+            Route::get('rute-plan-customer/{kode}', 'halaman_rute_plan_customer')->name('HalamanRutePlan.HalamanRutePlanCustomer');
+            Route::any('data-rute-plan-customer/{id_rute}', 'data_rute_plan_customer');
+            Route::post('tambah-rute-plan-customer', 'tambah_rute_plan_customer')->name('TambahRutePlanCustomer');
+            Route::get('hapus-rute-plan-customer/{id}', 'hapus_rute_plan_customer');
+        });
+
+        // RUTE PERJALANAN TEMPORARY
+        Route::controller(Admin_RoutePlanTemp::class)->group(function () {
+            Route::get('halaman-rute-plan-temp', 'halaman_rute_plan_temp')->name('HalamanRutePlanTemp');
+            Route::any('data-rute-plan-temp', 'data_rute_plan_temp')->name('DataRutePlanTemp');
+            Route::post('ubah-rute-plan-temp', 'ubah_rute_plan_temp')->name('UbahRutePlanTemp');
+            Route::post('tambah-rute-plan-temp', 'tambah_rute_plan_temp')->name('TambahRutePlanTemp');
+            Route::get('hapus-rute-plan-temp/{id}', 'hapus_rute_plan_temp');
+
+            Route::get('rute-plan-temp-customer/{kode}', 'halaman_rute_plan_temp_customer')->name('HalamanRutePlanTemp.HalamanRutePlanTempCustomer');
+            Route::any('data-rute-plan-temp-customer/{id_rute}', 'data_rute_plan_temp_customer');
+            Route::post('tambah-rute-plan-temp-customer', 'tambah_rute_plan_temp_customer')->name('TambahRutePlanTempCustomer');
+            Route::get('hapus-rute-plan-temp-customer/{id}', 'hapus_rute_plan_temp_customer');
         });
 
          //MANAJEMEN BPPBM

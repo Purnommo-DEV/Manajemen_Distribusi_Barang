@@ -18,4 +18,8 @@ class BPPBM extends Model
     public function relasi_produk(){
         return $this->belongsTo(Produk::class, 'produk_id', 'id');
     }
+
+    public function relasi_customer(){
+        return $this->belongsTo(Customer::class, 'customer_id', 'id');
+    }
 }
